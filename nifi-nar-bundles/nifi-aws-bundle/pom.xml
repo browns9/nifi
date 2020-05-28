@@ -23,6 +23,7 @@
     </parent>
 
     <artifactId>nifi-aws-bundle</artifactId>
+    <version>1.11.4.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
