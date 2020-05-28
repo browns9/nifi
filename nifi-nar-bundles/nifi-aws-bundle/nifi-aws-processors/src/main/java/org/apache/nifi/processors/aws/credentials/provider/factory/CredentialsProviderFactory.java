@@ -31,6 +31,7 @@ import org.apache.nifi.processors.aws.credentials.provider.factory.strategies.Na
 import org.apache.nifi.processors.aws.credentials.provider.factory.strategies.AnonymousCredentialsStrategy;
 import org.apache.nifi.processors.aws.credentials.provider.factory.strategies.ImplicitDefaultCredentialsStrategy;
 import org.apache.nifi.processors.aws.credentials.provider.factory.strategies.AssumeRoleCredentialsStrategy;
+import org.apache.nifi.processors.aws.credentials.provider.factory.strategies.WebIdentityTokenCredentialsStrategy;
 
 import com.amazonaws.auth.AWSCredentialsProvider;
 
@@ -48,8 +49,16 @@ import com.amazonaws.auth.AWSCredentialsProvider;
  */
 public class CredentialsProviderFactory {
 
-    private final List<CredentialsStrategy> strategies = new ArrayList<CredentialsStrategy>();
+    /**
+     * The list of strategies
+     */
+    private final List<CredentialsStrategy> strategies = new ArrayList<>();
 
+    /**
+     * The constructor.
+     *
+     * <p>Populates the list of strategies to use.</p>
+     */
     public CredentialsProviderFactory() {
         // Primary Credential Strategies
         strategies.add(new ExplicitDefaultCredentialsStrategy());
@@ -63,8 +72,19 @@ public class CredentialsProviderFactory {
 
         // Derived Credential Strategies
         strategies.add(new AssumeRoleCredentialsStrategy());
+        strategies.add(new WebIdentityTokenCredentialsStrategy());
     }
 
+    /**
+     * Select the primary strategy, using the supplied properties.
+     *
+     * @param properties
+     *          The properties to match against a strategy in the list of supported strategies.
+     * @return
+     *          The first strategy that can create a primary credential, using the supplied properties. Otherwise,
+     *          return {@code null} because none of the supported strategies can create a primary credential, using the
+     *          supplied properties.
+     */
     public CredentialsStrategy selectPrimaryStrategy(final Map<PropertyDescriptor, String> properties) {
         for (CredentialsStrategy strategy : strategies) {
             if (strategy.canCreatePrimaryCredential(properties)) {
@@ -74,6 +94,17 @@ public class CredentialsProviderFactory {
         return null;
     }
 
+    /**
+     * Select the primary strategy, using the supplied {@link ValidationContext}.
+     *
+     * @param validationContext
+     *          The validation context to use. This contains the properties to match against a strategy in the list of
+     *          supported strategies.
+     * @return
+     *          The first strategy that can create a primary credential, using the properties in the supplied
+     *          validation context. Otherwise, return {@code null} because none of the supported strategies can create
+     *          a primary credential, using the supplied validation context.
+     */
     public CredentialsStrategy selectPrimaryStrategy(final ValidationContext validationContext) {
         final Map<PropertyDescriptor, String> properties = validationContext.getProperties();
         return selectPrimaryStrategy(properties);
@@ -81,7 +112,11 @@ public class CredentialsProviderFactory {
 
     /**
      * Validates AWS credential properties against the configured strategies to report any validation errors.
-     * @return Validation errors
+     * @param validationContext
+     *          The validation context to use.
+     * @return
+     *          A collection of validation errors. Each element in the collection is a {@link ValidationResult} where
+     *          the {@link ValidationResult#isValid()} method returns {@code false}.
      */
     public Collection<ValidationResult> validate(final ValidationContext validationContext) {
         final CredentialsStrategy selectedStrategy = selectPrimaryStrategy(validationContext);
@@ -99,9 +134,12 @@ public class CredentialsProviderFactory {
     }
 
     /**
-     * Produces the AWSCredentialsProvider according to the given property set and the strategies configured in
+     * Produces the {@link AWSCredentialsProvider} according to the given property set and the strategies configured in
      * the factory.
-     * @return AWSCredentialsProvider implementation
+     * @param properties
+     *           The properties to use to select the primary strategy.
+     * @return
+     *           The {@code AWSCredentialsProvider} implementation.
      */
     public AWSCredentialsProvider getCredentialsProvider(final Map<PropertyDescriptor, String> properties) {
         final CredentialsStrategy primaryStrategy = selectPrimaryStrategy(properties);

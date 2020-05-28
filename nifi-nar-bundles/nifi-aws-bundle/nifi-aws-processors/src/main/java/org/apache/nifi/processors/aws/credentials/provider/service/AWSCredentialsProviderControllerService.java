@@ -46,9 +46,13 @@ import static org.apache.nifi.processors.aws.credentials.provider.factory.Creden
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.SECRET_KEY;
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.USE_ANONYMOUS_CREDENTIALS;
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE;
+
 
 /**
- * Implementation of AWSCredentialsProviderService interface
+ * Implementation of the {@link AWSCredentialsProviderService} interface.
  *
  * @see AWSCredentialsProviderService
  */
@@ -59,12 +63,29 @@ import static org.apache.nifi.processors.aws.credentials.provider.factory.Creden
 @Tags({ "aws", "credentials","provider" })
 public class AWSCredentialsProviderControllerService extends AbstractControllerService implements AWSCredentialsProviderService {
 
+    /**
+     * The ARN of the role that will be assumed.
+     */
     public static final PropertyDescriptor ASSUME_ROLE_ARN = CredentialPropertyDescriptors.ASSUME_ROLE_ARN;
+
+    /**
+     * The name of the role that will be assumed.
+     */
     public static final PropertyDescriptor ASSUME_ROLE_NAME = CredentialPropertyDescriptors.ASSUME_ROLE_NAME;
+
+    /**
+     * The maximum length of the session in seconds.
+     */
     public static final PropertyDescriptor MAX_SESSION_TIME = CredentialPropertyDescriptors.MAX_SESSION_TIME;
 
+    /**
+     * The list of properties supported by this service.
+     */
     private static final List<PropertyDescriptor> properties;
 
+    /**
+     * Define the properties supported by this service.
+     */
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(USE_DEFAULT_CREDENTIALS);
@@ -79,22 +100,72 @@ public class AWSCredentialsProviderControllerService extends AbstractControllerS
         props.add(ASSUME_ROLE_EXTERNAL_ID);
         props.add(ASSUME_ROLE_PROXY_HOST);
         props.add(ASSUME_ROLE_PROXY_PORT);
+        props.add(WEB_IDENTITY_ROLE_ARN);
+        props.add(WEB_IDENTITY_ROLE_SESSION_NAME);
+        props.add(WEB_IDENTITY_TOKEN_FILE);
         properties = Collections.unmodifiableList(props);
     }
 
+    /**
+     * The credentials provider used by this service.
+     * @see com.amazonaws.auth.AWSCredentialsProvider
+     */
     private volatile AWSCredentialsProvider credentialsProvider;
+
+
+    /**
+     * The credentials provider factory used to create the credentials provider.
+     * @see CredentialsProviderFactory
+     */
     protected final CredentialsProviderFactory credentialsProviderFactory = new CredentialsProviderFactory();
 
+
+    /**
+     * Get a list of the property descriptor objects that are supported by this processor.
+     *
+     * @return PropertyDescriptor objects this processor currently supports.
+     */
     @Override
     protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
         return properties;
     }
 
+    /**
+     * Get the credentials provider.
+     * @return The credentials provider.
+     * @throws ProcessException never.
+     *
+     * @see  <a href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html">AWSCredentialsProvider</a>
+     */
     @Override
     public AWSCredentialsProvider getCredentialsProvider() throws ProcessException {
         return credentialsProvider;
     }
 
+    /**
+     * Perform validation on the properties.
+     *
+     * <p>Since each property is validated as it is set, this allows validation of groups of properties together.</p>
+     *
+     * <p>This method will be called only when it has been determined that all property values are valid according to
+     * their corresponding validators returned by {@link PropertyDescriptor#getValidators()}.</p>
+     *
+     * <p>There are these implementations of {@link ValidationContext}:</p>
+     * <ul>
+     *   <li>{@code org.apache.nifi.bootstrap.notification.NotificationValidationContext}</li>
+     *   <li>{@code org.apache.nifi.processor.StandardValidationContext}</li>
+     *   <li>{@code org.apache.nifi.stateless.core.StatelessValidationContext}</li>
+     *   <li>{@code org.apache.nifi.script.impl.FilteredPropertiesValidationContextAdapter}</li>
+     * </ul>
+     *
+     * @param validationContext
+     *          Provides a mechanism for obtaining externally managed values, such as property values, and supplies
+     *          convenience methods for operating on those values.
+     *
+     * @return
+     *          A {@link Collection} of {@link ValidationResult} objects that will be added to any
+     *          other validation findings.
+     */
     @Override
     protected Collection<ValidationResult> customValidate(final ValidationContext validationContext) {
         final Collection<ValidationResult> validationFailureResults =
@@ -102,6 +173,23 @@ public class AWSCredentialsProviderControllerService extends AbstractControllerS
         return validationFailureResults;
     }
 
+    /**
+     * This method is called when this service is enabled or restarted.
+     *
+     * <p>This method will be called every time a user enables the service. Additionally, each time that NiFi is
+     * restarted, this method will be called if NiFi is configured to "auto-resume state" and this service is
+     * enabled.</p>
+     *
+     * <p>There are two implementations of the {@code ConfigurationContext} interface:
+     * {@code org.apache.nifi.controller.service.StandardConfigurationContext} and
+     * {@code org.apache.nifi.controller.service.StatelessConfigurationContext}.
+     *
+     * @param context
+     *          The configuration for this service, in a {@link ConfigurationContext} object.
+     * @throws InitializationException
+     *          Never.
+     */
+    @SuppressWarnings("unused")
     @OnEnabled
     public void onConfigured(final ConfigurationContext context) throws InitializationException {
         final Map<PropertyDescriptor, String> properties = context.getProperties();
@@ -115,6 +203,12 @@ public class AWSCredentialsProviderControllerService extends AbstractControllerS
         getLogger().debug("Using credentials provider: " + credentialsProvider.getClass());
     }
 
+    /**
+     * Create a human-readable representation of this object.
+     *
+     * @return
+     *          The human-readable string.
+     */
     @Override
     public String toString() {
         return "AWSCredentialsProviderService[id=" + getIdentifier() + "]";

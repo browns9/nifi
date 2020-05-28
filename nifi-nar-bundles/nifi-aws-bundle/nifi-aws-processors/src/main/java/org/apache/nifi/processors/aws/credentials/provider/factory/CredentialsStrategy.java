@@ -35,39 +35,66 @@ public interface CredentialsStrategy {
 
     /**
      * Name of the strategy, suitable for displaying to a user in validation messages.
-     * @return strategy name
+     * @return strategy name.
      */
     String getName();
 
     /**
      * Determines if this strategy can create primary credentials using the given properties.
-     * @return true if primary credentials can be created
+     *
+     * @param properties
+     *          The AWS provider properties specified by the user.
+     * @return
+     *          {@code true} if primary credentials can be created.
      */
     boolean canCreatePrimaryCredential(Map<PropertyDescriptor, String> properties);
 
     /**
      * Determines if this strategy can create derived credentials using the given properties.
-     * @return true if derived credentials can be created
+     *
+     * @param properties
+     *          The AWS provider properties specified by the user.
+     * @return
+     *          {@code true} if derived credentials can be created
      */
     boolean canCreateDerivedCredential(Map<PropertyDescriptor, String> properties);
 
     /**
-     * Validates the properties belonging to this strategy, given the selected primary strategy.  Errors may result
-     * from individually malformed properties, invalid combinations of properties, or inappropriate use of properties
-     * not consistent with the primary strategy.
-     * @param primaryStrategy the prevailing primary strategy
-     * @return validation errors
+     * Validates the properties belonging to this strategy, given the selected primary strategy.
+     *
+     * <p>Errors may result from individually malformed properties, invalid combinations of properties, or
+     * inappropriate use of properties not consistent with the primary strategy.</p>
+     * @param validationContext
+     *          The configuration to validate.
+     * @param primaryStrategy
+     *          The prevailing primary strategy.
+     * @return
+     *          Validation errors as a {@link Collection} of {@link ValidationResult} objects.
      */
     Collection<ValidationResult> validate(ValidationContext validationContext, CredentialsStrategy primaryStrategy);
 
     /**
      * Creates an AWSCredentialsProvider instance for this strategy, given the properties defined by the user.
+     *
+     * @param properties
+     *          The AWS provider properties specified by the user.
+     * @return
+     *          An {@link AWSCredentialsProvider} instance.
      */
     AWSCredentialsProvider getCredentialsProvider(Map<PropertyDescriptor, String> properties);
 
     /**
      * Creates an AWSCredentialsProvider instance for this strategy, given the properties defined by the user and
      * the AWSCredentialsProvider from the winning primary strategy.
+     *
+     * @param properties
+     *          The AWS provider properties specified by the user.
+     *
+     * @param primaryCredentialsProvider
+     *          The {@link AWSCredentialsProvider} specified by the winning strategy.
+     *
+     * @return
+     *          The derived {@link AWSCredentialsProvider}.
      */
     AWSCredentialsProvider getDerivedCredentialsProvider(Map<PropertyDescriptor, String> properties,
                                                          AWSCredentialsProvider primaryCredentialsProvider);

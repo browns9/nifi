@@ -39,6 +39,11 @@ import static org.apache.nifi.processors.aws.credentials.provider.factory.Creden
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.ASSUME_ROLE_NAME;
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.MAX_SESSION_TIME;
 import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.ASSUME_ROLE_EXTERNAL_ID;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME;
+import static org.apache.nifi.processors.aws.credentials.provider.factory.CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE;
+
+
 
 import com.amazonaws.auth.AWSCredentialsProvider;
 import org.apache.nifi.processors.aws.AbstractAWSCredentialsProviderProcessor;
@@ -61,7 +66,10 @@ public class MockAWSProcessor extends AbstractAWSCredentialsProviderProcessor<Am
             MAX_SESSION_TIME,
             ASSUME_ROLE_EXTERNAL_ID,
             ASSUME_ROLE_PROXY_HOST,
-            ASSUME_ROLE_PROXY_PORT
+            ASSUME_ROLE_PROXY_PORT,
+            WEB_IDENTITY_ROLE_ARN,
+            WEB_IDENTITY_ROLE_SESSION_NAME,
+            WEB_IDENTITY_TOKEN_FILE
     );
 
     @Override
@@ -96,6 +104,7 @@ public class MockAWSProcessor extends AbstractAWSCredentialsProviderProcessor<Am
      *
      * @deprecated use {@link #createClient(ProcessContext, AWSCredentialsProvider, ClientConfiguration)} instead
      */
+    @Deprecated
     @Override
     protected AmazonS3Client createClient(final ProcessContext context, final AWSCredentials credentials, final ClientConfiguration config) {
         getLogger().info("Creating client with awd credentials");

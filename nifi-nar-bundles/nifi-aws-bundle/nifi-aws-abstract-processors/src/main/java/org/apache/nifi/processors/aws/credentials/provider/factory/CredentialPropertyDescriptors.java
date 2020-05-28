@@ -19,6 +19,9 @@ package org.apache.nifi.processors.aws.credentials.provider.factory;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.expression.ExpressionLanguageScope;
 import org.apache.nifi.processor.util.StandardValidators;
+import org.apache.nifi.processors.aws.credentials.provider.factory.validations.AwsArnValidator;
+import org.apache.nifi.processors.aws.credentials.provider.factory.validations.AwsWebIdentityRoleSessionNameValidator;
+import org.apache.nifi.processors.aws.credentials.provider.factory.validations.AwsWebIdentityTokenFileValidator;
 
 /**
  * Shared definitions of properties that specify various AWS credentials.
@@ -48,6 +51,10 @@ public class CredentialPropertyDescriptors {
                 "environment variables, default user credentials, etc.")
             .build();
 
+    /**
+     * {@link PropertyDescriptor} for a credentials file containing the user's AWS access key and secret key.
+     *
+     */
     public static final PropertyDescriptor CREDENTIALS_FILE = new PropertyDescriptor.Builder()
             .name("Credentials File")
             .displayName("Credentials File")
@@ -57,6 +64,10 @@ public class CredentialPropertyDescriptors {
             .description("Path to a file containing AWS access key and secret key in properties file format.")
             .build();
 
+    /**
+     * {@link PropertyDescriptor} for the user's AWS access key.
+     *
+     */
     public static final PropertyDescriptor ACCESS_KEY = new PropertyDescriptor.Builder()
             .name("Access Key")
             .displayName("Access Key ID")
@@ -66,6 +77,10 @@ public class CredentialPropertyDescriptors {
             .sensitive(true)
             .build();
 
+    /**
+     * {@link PropertyDescriptor} for the user's AWS secret key.
+     *
+     */
     public static final PropertyDescriptor SECRET_KEY = new PropertyDescriptor.Builder()
             .name("Secret Key")
             .displayName("Secret Access Key")
@@ -91,6 +106,12 @@ public class CredentialPropertyDescriptors {
             .description("The AWS profile name for credentials from the profile configuration file.")
             .build();
 
+    /**
+     * {@link PropertyDescriptor} for allowing or denying anonymous credentials.
+     *
+     * @see <a href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/profile/ProfileCredentialsProvider.html">
+     *     ProfileCredentialsProvider</a>
+     */
     public static final PropertyDescriptor USE_ANONYMOUS_CREDENTIALS = new PropertyDescriptor.Builder()
             .name("anonymous-credentials")
             .displayName("Use Anonymous Credentials")
@@ -104,7 +125,7 @@ public class CredentialPropertyDescriptors {
             .build();
 
     /**
-     * AWS Role Arn used for cross account access
+     * {@link PropertyDescriptor} for an AWS Role ARN, used for cross account access.
      *
      * @see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns">AWS ARN</a>
      */
@@ -119,7 +140,8 @@ public class CredentialPropertyDescriptors {
             .build();
 
     /**
-     * The role name while creating aws role
+     * {@link PropertyDescriptor} for an AWS Role name, used for cross account access.
+     *
      */
     public static final PropertyDescriptor ASSUME_ROLE_NAME = new PropertyDescriptor.Builder()
             .name("Assume Role Session Name")
@@ -132,7 +154,9 @@ public class CredentialPropertyDescriptors {
             .build();
 
     /**
-     * Max session time for role based credentials. The range is between 900 and 3600 seconds.
+     * {@link PropertyDescriptor} for the maximum session time (in seconds) for role based credentials.
+     *
+     * <p>The range is between 900 and 3600 seconds.</p>
      */
     public static final PropertyDescriptor MAX_SESSION_TIME = new PropertyDescriptor.Builder()
             .name("Session Time")
@@ -144,7 +168,7 @@ public class CredentialPropertyDescriptors {
             .build();
 
     /**
-     * The ExternalId used while creating aws role.
+     * {@link PropertyDescriptor} for the ExternalId used while creating an AWS role.
      */
     public static final PropertyDescriptor ASSUME_ROLE_EXTERNAL_ID = new PropertyDescriptor.Builder()
             .name("assume-role-external-id")
@@ -158,7 +182,7 @@ public class CredentialPropertyDescriptors {
             .build();
 
     /**
-     * Assume Role Proxy variables for configuring proxy to retrieve keys
+     * Assume Role Proxy host name for configuring a proxy to retrieve keys.
      */
     public static final PropertyDescriptor ASSUME_ROLE_PROXY_HOST = new PropertyDescriptor.Builder()
             .name("assume-role-proxy-host")
@@ -170,6 +194,9 @@ public class CredentialPropertyDescriptors {
             .description("Proxy host for cross-account access, if needed within your environment. This will configure a proxy to request for temporary access keys into another AWS account")
             .build();
 
+    /**
+     * Assume Role Proxy port number for configuring a proxy to retrieve keys.
+     */
     public static final PropertyDescriptor ASSUME_ROLE_PROXY_PORT = new PropertyDescriptor.Builder()
             .name("assume-role-proxy-port")
             .displayName("Assume Role Proxy Port")
@@ -178,5 +205,56 @@ public class CredentialPropertyDescriptors {
             .addValidator(StandardValidators.POSITIVE_INTEGER_VALIDATOR)
             .sensitive(false)
             .description("Proxy pot for cross-account access, if needed within your environment. This will configure a proxy to request for temporary access keys into another AWS account")
+            .build();
+
+
+    /**
+     * {@link PropertyDescriptor} for an AWS Role ARN, used for Web Identity Token access.
+     *
+     * @see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns">AWS ARN</a>
+     */
+    public static final PropertyDescriptor WEB_IDENTITY_ROLE_ARN = new PropertyDescriptor.Builder()
+            .name("Web Identity Role ARN")
+            .displayName("Web Idenity Role ARN")
+            .expressionLanguageSupported(ExpressionLanguageScope.NONE)
+            .required(false)
+            .addValidator(new AwsArnValidator())
+            .sensitive(false)
+            .description("The AWS Web Identity Role ARN for Web Identity Token access.")
+            .build();
+
+
+    /**
+     * {@link PropertyDescriptor} for an AWS Web Identity role session name.
+     *
+     * <p>The <a href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html">AWS CLI documentation</a>
+     * describes the Web Identity Role Session Name parameter.</p>
+     */
+    public static final PropertyDescriptor WEB_IDENTITY_ROLE_SESSION_NAME = new PropertyDescriptor.Builder()
+            .name("Web Identity Role Session Name")
+            .displayName("Web Identity Role Session Name")
+            .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
+            .required(false)
+            .addValidator(new AwsWebIdentityRoleSessionNameValidator())
+            .description("The Web Identity Role Session Name.")
+            .sensitive(false)
+            .build();
+
+    /**
+     * {@link PropertyDescriptor} for an AWS Web Identity Token file used for temporary secure credential.
+     *
+     * <p>The AWS Identity Token File property does not allow NiFi Expressions.</p>
+     *
+     * <p>The <a href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html">AWS CLI documentation</a>
+     * describes the Web Identity Role Session Name parameter.</p>
+     */
+    public static final PropertyDescriptor WEB_IDENTITY_TOKEN_FILE = new PropertyDescriptor.Builder()
+            .name("Web Identity Token File")
+            .displayName("Web Identity Token File")
+            .expressionLanguageSupported(ExpressionLanguageScope.NONE)
+            .required(false)
+            .addValidator(new AwsWebIdentityTokenFileValidator())
+            .description("Path to a file containing the AWS Web Identity Token.")
+            .sensitive(false)
             .build();
 }
