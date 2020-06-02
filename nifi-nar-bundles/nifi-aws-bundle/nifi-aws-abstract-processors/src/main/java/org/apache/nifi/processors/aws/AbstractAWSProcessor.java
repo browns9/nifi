@@ -329,7 +329,7 @@ public abstract class AbstractAWSProcessor<ClientType extends AmazonWebServiceCl
      * @param config aws client configuration
      * @return ClientType aws client
      *
-     * @deprecated use {@link AbstractAWSCredentialsProviderProcessor#createClient(ProcessContext, AWSCredentialsProvider, ClientConfiguration)}
+     * @deprecated use {@link AbstractAWSCredentialsProviderProcessor#createClient(ProcessContext, com.amazonaws.auth.AWSCredentialsProvider, ClientConfiguration)}
      */
     @Deprecated
     protected abstract ClientType createClient(final ProcessContext context, final AWSCredentials credentials, final ClientConfiguration config);

@@ -32,6 +32,11 @@ import org.apache.nifi.processors.aws.credentials.provider.factory.validations.A
 public class CredentialPropertyDescriptors {
 
     /**
+     * The default Web Identity Token Session Name.
+     */
+    private static final String DEFAULT_SESSION_NAME = "nifi-${now():format('yyyyMMddHHmmssSSS')}";
+
+    /**
      * Specifies use of the Default Credential Provider Chain
      *
      * @see <a href="http://docs.aws.amazon.com/AWSSdkDocsJava/latest/DeveloperGuide/credentials.html#id1">
@@ -214,9 +219,9 @@ public class CredentialPropertyDescriptors {
      * @see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns">AWS ARN</a>
      */
     public static final PropertyDescriptor WEB_IDENTITY_ROLE_ARN = new PropertyDescriptor.Builder()
-            .name("Web Identity Role ARN")
-            .displayName("Web Idenity Role ARN")
-            .expressionLanguageSupported(ExpressionLanguageScope.NONE)
+            .name("Web Identity Token Role ARN")
+            .displayName("Web Identity Token Role ARN")
+            .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsArnValidator())
             .sensitive(false)
@@ -231,12 +236,12 @@ public class CredentialPropertyDescriptors {
      * describes the Web Identity Role Session Name parameter.</p>
      */
     public static final PropertyDescriptor WEB_IDENTITY_ROLE_SESSION_NAME = new PropertyDescriptor.Builder()
-            .name("Web Identity Role Session Name")
-            .displayName("Web Identity Role Session Name")
-            .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
+            .name("Web Identity Token Role Session Name")
+            .displayName("Web Identity Token Role Session Name")
+            .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsWebIdentityRoleSessionNameValidator())
-            .description("The Web Identity Role Session Name.")
+            .description("The Web Identity Role Session Name. Defaults to " + DEFAULT_SESSION_NAME + ".")
             .sensitive(false)
             .build();
 
@@ -251,10 +256,10 @@ public class CredentialPropertyDescriptors {
     public static final PropertyDescriptor WEB_IDENTITY_TOKEN_FILE = new PropertyDescriptor.Builder()
             .name("Web Identity Token File")
             .displayName("Web Identity Token File")
-            .expressionLanguageSupported(ExpressionLanguageScope.NONE)
+            .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsWebIdentityTokenFileValidator())
-            .description("Path to a file containing the AWS Web Identity Token.")
+            .description("Absolute path to a file containing the AWS Web Identity Token.")
             .sensitive(false)
             .build();
 }

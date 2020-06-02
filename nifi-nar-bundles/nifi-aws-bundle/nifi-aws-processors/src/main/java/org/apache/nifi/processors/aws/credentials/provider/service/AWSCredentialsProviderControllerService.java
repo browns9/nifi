@@ -65,16 +65,22 @@ public class AWSCredentialsProviderControllerService extends AbstractControllerS
 
     /**
      * The ARN of the role that will be assumed.
+     *
+     * <p>Used in test classes.</p>
      */
     public static final PropertyDescriptor ASSUME_ROLE_ARN = CredentialPropertyDescriptors.ASSUME_ROLE_ARN;
 
     /**
      * The name of the role that will be assumed.
+     *
+     * <p>Used in test classes.</p>
      */
     public static final PropertyDescriptor ASSUME_ROLE_NAME = CredentialPropertyDescriptors.ASSUME_ROLE_NAME;
 
     /**
      * The maximum length of the session in seconds.
+     *
+     * <p>Used in test classes.</p>
      */
     public static final PropertyDescriptor MAX_SESSION_TIME = CredentialPropertyDescriptors.MAX_SESSION_TIME;
 

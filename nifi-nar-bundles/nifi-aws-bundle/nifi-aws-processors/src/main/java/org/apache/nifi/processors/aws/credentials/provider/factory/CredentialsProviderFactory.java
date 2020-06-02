@@ -52,7 +52,7 @@ public class CredentialsProviderFactory {
     /**
      * The list of strategies
      */
-    private final List<CredentialsStrategy> strategies = new ArrayList<>();
+    private final List<CredentialsStrategy> strategies = new ArrayList<CredentialsStrategy>();
 
     /**
      * The constructor.
