@@ -74,6 +74,8 @@ public interface S3EncryptionStrategy {
      *
      * @param credentialsProvider AWS credentials provider.
      * @param clientConfiguration Client configuration.
+     * @param kmsRegion The AWS KMS Region.
+     * @param keyIdOrMaterial The Key Id or Key material.
      * @return {@link AmazonS3Client}, perhaps an {@link com.amazonaws.services.s3.AmazonS3EncryptionClient}
      */
     default AmazonS3Client createEncryptionClient(AWSCredentialsProvider credentialsProvider, ClientConfiguration clientConfiguration, String kmsRegion, String keyIdOrMaterial) {

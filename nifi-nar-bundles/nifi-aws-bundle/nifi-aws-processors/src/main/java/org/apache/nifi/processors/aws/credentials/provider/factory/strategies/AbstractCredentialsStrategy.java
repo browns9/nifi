@@ -37,12 +37,12 @@ public abstract class AbstractCredentialsStrategy implements CredentialsStrategy
     /**
      * The strategy name.
      */
-    private final String name;
+    protected final String name;
 
     /**
      * The properties required to create a particular {@link AWSCredentialsProvider}.
      */
-    private final PropertyDescriptor[] requiredProperties;
+    protected final PropertyDescriptor[] requiredProperties;
 
     /**
      * Construct from the strategy name and the required properties.

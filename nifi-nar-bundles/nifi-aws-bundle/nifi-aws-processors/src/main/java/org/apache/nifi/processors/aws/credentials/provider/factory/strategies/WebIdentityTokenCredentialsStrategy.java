@@ -45,13 +45,12 @@ import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder
  *     AWS WebIdentityTokenCredentialsProvider</a>
  * @see <a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/WebIdentityTokenCredentialsProvider.Builder.html">
  *     AWS WebIdentityTokenCredentialsProvider Builder</a>
- * @see <a href=""></a>
  */
-public class WebIdentityTokenCredentialsStrategy extends AbstractCredentialsStrategy {
+public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCredentialsStrategy {
 
 
     /**
-     * Construct from a name and a list of properties.
+     * Construct from a strategy name and a list of properties.
      */
     public WebIdentityTokenCredentialsStrategy() {
         super("Web Identity Token", new PropertyDescriptor[] {
@@ -102,7 +101,6 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractCredentialsStra
         return true;
     }
 
-
     /**
      * Validates the properties belonging to this strategy, given the selected primary strategy.
      *
@@ -119,36 +117,9 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractCredentialsStra
                                                  final CredentialsStrategy primaryStrategy) {
         final Collection<ValidationResult> validationFailureResults = new ArrayList<>();
 
-        final boolean webIdentityRoleArnPropertyIsSet = validationContext.getProperty(WEB_IDENTITY_ROLE_ARN).isSet();
-        final boolean webIdentityRoleSessionNameIsSet =
-                validationContext.getProperty(WEB_IDENTITY_ROLE_SESSION_NAME).isSet();
-        final boolean webIdentityTokenFileIsSet = validationContext.getProperty(WEB_IDENTITY_TOKEN_FILE).isSet();
+        validateAllRequiredPropertiesAreSet(validationContext, validationFailureResults);
 
-        if (webIdentityRoleArnPropertyIsSet ^ webIdentityRoleSessionNameIsSet
-            || webIdentityRoleArnPropertyIsSet ^ webIdentityTokenFileIsSet) {
-            final String webIdentityRoleArnPropertyName = WEB_IDENTITY_ROLE_ARN.getName();
-            final String webIdentityRoleSessionNamePropertyName = WEB_IDENTITY_ROLE_SESSION_NAME.getName();
-            final String webIdentityTokeFilePropertyName = WEB_IDENTITY_TOKEN_FILE.getName();
-            final ValidationResult validatePropertiesSetResult =
-                    new ValidationResult.Builder().input("The " + webIdentityRoleArnPropertyName + ", " +
-                                                         webIdentityRoleSessionNamePropertyName + ", and the "  +
-                                                         webIdentityTokeFilePropertyName + " properties")
-                                                  .valid(false)
-                                                  .explanation(" assuming roles with web identity session credentials" +
-                                                               " requires all these properties to be set. " +
-                                                               "The " + webIdentityRoleArnPropertyName + " property " +
-                                                               (webIdentityRoleArnPropertyIsSet ? "is" : "is not") +
-                                                               " set. " +
-                                                               "The " + webIdentityRoleSessionNamePropertyName +
-                                                               " property " +
-                                                               (webIdentityRoleSessionNameIsSet ? "is" : "is not") +
-                                                               " set. " +
-                                                               "The " + webIdentityTokeFilePropertyName + " property " +
-                                                               (webIdentityTokenFileIsSet ? "is" : "is not") +
-                                                               " set.")
-                                                  .build();
-            validationFailureResults.add(validatePropertiesSetResult);
-        }
+        super.validateProxyConfiguration(validationContext, validationFailureResults);
 
         return validationFailureResults.isEmpty() ? null : validationFailureResults;
     }
@@ -180,16 +151,17 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractCredentialsStra
                                         final AWSCredentialsProvider primaryCredentialsProvider) {
 
         final ClientConfiguration clientConfiguration = new ClientConfiguration();
+        addProxyConfiguration(properties, clientConfiguration);
 
         final AWSSecurityTokenServiceClientBuilder clientBuilder =
                 AWSSecurityTokenServiceClientBuilder.standard().withCredentials(primaryCredentialsProvider)
                                                                .withClientConfiguration(clientConfiguration);
-
+        final AWSSecurityTokenService securityTokenService = clientBuilder.build();
 
         final String roleArn = properties.get(WEB_IDENTITY_ROLE_ARN);
         final String roleSessionName = properties.get(WEB_IDENTITY_ROLE_SESSION_NAME);
         final String webIdentityTokenFile = properties.get(WEB_IDENTITY_TOKEN_FILE);
-        final AWSSecurityTokenService securityTokenService = clientBuilder.build();
+
         final STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder providerBuilder =
                 new STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder(roleArn,
                                                                                    roleSessionName,
@@ -199,5 +171,62 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractCredentialsStra
         final AWSCredentialsProvider credentialsProvider = providerBuilder.build();
 
         return credentialsProvider;
+    }
+
+    /**
+     * Validate that all the required properties are set.
+     * @param validationContext
+     *          The {@link ValidationContext} to use.
+     * @param validationFailureResults
+     *          The {@link Collection} of {@link ValidationResult}s for failed validations.
+     */
+    private void validateAllRequiredPropertiesAreSet(final ValidationContext validationContext,
+                                                     final Collection<ValidationResult> validationFailureResults) {
+        final boolean webIdentityRoleArnPropertyIsSet = validationContext.getProperty(WEB_IDENTITY_ROLE_ARN).isSet();
+        final boolean webIdentityRoleSessionNameIsSet =
+                validationContext.getProperty(WEB_IDENTITY_ROLE_SESSION_NAME).isSet();
+        final boolean webIdentityTokenFileIsSet = validationContext.getProperty(WEB_IDENTITY_TOKEN_FILE).isSet();
+
+        if (webIdentityRoleArnPropertyIsSet ^ webIdentityRoleSessionNameIsSet
+            || webIdentityRoleArnPropertyIsSet ^ webIdentityTokenFileIsSet) {
+            final String explanation = makeExplanationForMissingProperties(validationContext);
+
+            final ValidationResult validatePropertiesSetResult =
+                    new ValidationResult.Builder().subject(super.name)
+                                                  .input(null)
+                                                  .valid(false)
+                                                  .explanation(explanation)
+                                                  .build();
+            validationFailureResults.add(validatePropertiesSetResult);
+        }
+    }
+
+    /**
+     * Create the explanation message used when one or more required properties are not set.
+     * @param validationContext
+     *          The {@link ValidationContext} to use.
+     * @return
+     *          The explanation message.
+     */
+    private String makeExplanationForMissingProperties(final ValidationContext validationContext) {
+
+        final StringBuilder builder = new StringBuilder(2048);
+
+        final String lineEnding = System.getProperty("line.separator");
+        builder.append("assuming roles with web identity session credentials requires all these properties to be set:")
+               .append(lineEnding);
+
+        for (final PropertyDescriptor requiredProperty : requiredProperties) {
+             final boolean isSet = validationContext.getProperty(requiredProperty).isSet();
+
+            if (!isSet) {
+                builder.append("The \"")
+                       .append(requiredProperty.getDisplayName())
+                       .append("\" property must be set.")
+                       .append(lineEnding);
+            }
+        }
+        final String explanation = builder.toString();
+        return explanation;
     }
 }

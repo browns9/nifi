@@ -554,6 +554,10 @@ public abstract class AbstractAWSGatewayApiProcessor extends
 
     /**
      * Returns a Map of flowfile attributes from the response http headers. Multivalue headers are naively converted to comma separated strings.
+     * @param responseHttp
+     *          The response HTTP
+     * @return
+     *          Map of headers (name -&gt; value)
      */
     protected Map<String, String> convertAttributesFromHeaders(
         GenericApiGatewayResponse responseHttp) {

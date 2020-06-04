@@ -1,0 +1,618 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] nifi-aws-bundle                                                    [pom]
+[INFO] nifi-aws-service-api                                               [jar]
+[INFO] nifi-aws-abstract-processors                                       [jar]
+[INFO] nifi-aws-processors                                                [jar]
+[INFO] nifi-aws-service-api-nar                                           [nar]
+[INFO] nifi-aws-nar                                                       [nar]
+[INFO] 
+[INFO] ------------------< org.apache.nifi:nifi-aws-bundle >-------------------
+[INFO] Building nifi-aws-bundle 1.11.4.1-SNAPSHOT                         [1/6]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-bundle ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-bundle ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-bundle ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-bundle ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-bundle ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-bundle ---
+[INFO] No site descriptor found: nothing to attach.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-bundle ---
+[INFO] Building zip: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\target\nifi-aws-bundle-1.11.4.1-SNAPSHOT-source-release.zip
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-bundle ---
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-bundle ---
+[INFO] Not executing Javadoc as the project is not a Java classpath-capable package
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-bundle ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-bundle ---
+[INFO] nifi-aws-bundle-1.11.4.1-SNAPSHOT-source-release.zip - SHA-512 : 2c59898d1db3cbfb0f10bf8e91d9c1b1743d64f805663999e10331b0a3403825f0cfdadd5a2d8e4ffa12446ddd84566ea2497a14a78631c01899d76ff5622be5
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-bundle ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-bundle\1.11.4.1-SNAPSHOT\nifi-aws-bundle-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\target\nifi-aws-bundle-1.11.4.1-SNAPSHOT-source-release.zip to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-bundle\1.11.4.1-SNAPSHOT\nifi-aws-bundle-1.11.4.1-SNAPSHOT-source-release.zip
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-bundle ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] 
+[INFO] ----------------< org.apache.nifi:nifi-aws-service-api >----------------
+[INFO] Building nifi-aws-service-api 1.11.4.1-SNAPSHOT                    [2/6]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-service-api ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-service-api ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ nifi-aws-service-api ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\src\main\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ nifi-aws-service-api ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ nifi-aws-service-api ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\src\test\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ nifi-aws-service-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-service-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.0:jar (default-jar) @ nifi-aws-service-api ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-service-api ---
+[INFO] Skipping because packaging 'jar' is not pom.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-service-api ---
+[INFO] Skipping the assembly in this project because it's not the Execution Root
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-service-api ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-service-api ---
+[WARNING] Are you sure about the <javadocVersion/> parameter? It seems to be 1.8.0
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-service-api ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-service-api ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api\1.11.4.1-SNAPSHOT\nifi-aws-service-api-1.11.4.1-SNAPSHOT.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api\1.11.4.1-SNAPSHOT\nifi-aws-service-api-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT-sources.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api\1.11.4.1-SNAPSHOT\nifi-aws-service-api-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api\target\nifi-aws-service-api-1.11.4.1-SNAPSHOT-javadoc.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api\1.11.4.1-SNAPSHOT\nifi-aws-service-api-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-service-api ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] 
+[INFO] ------------< org.apache.nifi:nifi-aws-abstract-processors >------------
+[INFO] Building nifi-aws-abstract-processors 1.11.4.1-SNAPSHOT            [3/6]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-abstract-processors ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-abstract-processors ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ nifi-aws-abstract-processors ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ nifi-aws-abstract-processors ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 24 source files to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\classes
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:[64,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\AbstractAWSCredentialsProviderProcessor.java:[37,12] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\sns\AbstractSNSProcessor.java:[62,15] [deprecation] AmazonSNSClient(AWSCredentialsProvider,ClientConfiguration) in AmazonSNSClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\kinesis\stream\AbstractKinesisStreamProcessor.java:[51,15] [deprecation] AmazonKinesisClient(AWSCredentialsProvider,ClientConfiguration) in AmazonKinesisClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\dynamodb\AbstractDynamoDBProcessor.java:[183,44] [deprecation] AmazonDynamoDBClient(AWSCredentialsProvider,ClientConfiguration) in AmazonDynamoDBClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\kinesis\firehose\AbstractKinesisFirehoseProcessor.java:[68,15] [deprecation] AmazonKinesisFirehoseClient(AWSCredentialsProvider,ClientConfiguration) in AmazonKinesisFirehoseClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\s3\AbstractS3Processor.java:[155,17] [deprecation] AmazonS3Client(AWSCredentialsProvider,ClientConfiguration) in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\s3\AbstractS3Processor.java:[165,46] [deprecation] S3ClientOptions() in S3ClientOptions has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\s3\AbstractS3Processor.java:[166,21] [deprecation] setPathStyleAccess(boolean) in S3ClientOptions has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\client\GenericApiGatewayClient.java:[42,8] [deprecation] setRegion(Region) in AmazonWebServiceClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\client\GenericApiGatewayClient.java:[43,8] [deprecation] setEndpoint(String) in AmazonWebServiceClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\client\GenericApiGatewayClient.java:[83,26] [deprecation] <T>execute(Request<?>,HttpResponseHandler<AmazonWebServiceResponse<T>>,HttpResponseHandler<AmazonServiceException>,ExecutionContext) in AmazonHttpClient has been deprecated
+  where T is a type-variable:
+    T extends Object declared in method <T>execute(Request<?>,HttpResponseHandler<AmazonWebServiceResponse<T>>,HttpResponseHandler<AmazonServiceException>,ExecutionContext)
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\client\GenericApiGatewayClient.java:[90,24] [deprecation] setSigner(Signer) in ExecutionContext has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\lambda\AbstractAWSLambdaProcessor.java:[59,15] [deprecation] AWSLambdaClient(AWSCredentialsProvider,ClientConfiguration) in AWSLambdaClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\sqs\AbstractSQSProcessor.java:[55,15] [deprecation] AmazonSQSClient(AWSCredentialsProvider,ClientConfiguration) in AmazonSQSClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:[151,26] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:[150,29] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:[237,58] [deprecation] expressionLanguageSupported(boolean) in Builder has been deprecated
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ nifi-aws-abstract-processors ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\test\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ nifi-aws-abstract-processors ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-abstract-processors ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.0:jar (default-jar) @ nifi-aws-abstract-processors ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-abstract-processors ---
+[INFO] Skipping because packaging 'jar' is not pom.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-abstract-processors ---
+[INFO] Skipping the assembly in this project because it's not the Execution Root
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-abstract-processors ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-abstract-processors ---
+[WARNING] Are you sure about the <javadocVersion/> parameter? It seems to be 1.8.0
+[INFO] 
+2 warnings
+[WARNING] Javadoc Warnings
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:558: warning: no @param for responseHttp
+[WARNING] protected Map<String, String> convertAttributesFromHeaders(
+[WARNING] ^
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\src\main\java\org\apache\nifi\processors\aws\wag\AbstractAWSGatewayApiProcessor.java:558: warning: no @return
+[WARNING] protected Map<String, String> convertAttributesFromHeaders(
+[WARNING] ^
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-abstract-processors ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-abstract-processors ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-abstract-processors\1.11.4.1-SNAPSHOT\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-abstract-processors\1.11.4.1-SNAPSHOT\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-sources.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-abstract-processors\1.11.4.1-SNAPSHOT\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-abstract-processors\target\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-javadoc.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-abstract-processors\1.11.4.1-SNAPSHOT\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-abstract-processors ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] 
+[INFO] ----------------< org.apache.nifi:nifi-aws-processors >-----------------
+[INFO] Building nifi-aws-processors 1.11.4.1-SNAPSHOT                     [4/6]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-processors ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-processors ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-processors ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-processors ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-processors ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ nifi-aws-processors ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ nifi-aws-processors ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 39 source files to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\classes
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\credentials\provider\factory\strategies\AnonymousCredentialsStrategy.java:[26,29] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\credentials\provider\factory\strategies\AccessKeyPairCredentialsStrategy.java:[26,29] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\credentials\provider\factory\strategies\AnonymousCredentialsStrategy.java:[44,19] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\s3\encryption\ClientSideKMSEncryptionStrategy.java:[57,42] [deprecation] AmazonS3EncryptionClient(AWSCredentialsProvider,EncryptionMaterialsProvider,CryptoConfiguration) in AmazonS3EncryptionClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\credentials\provider\factory\strategies\AccessKeyPairCredentialsStrategy.java:[49,19] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\s3\encryption\ClientSideCEncryptionStrategy.java:[59,42] [deprecation] AmazonS3EncryptionClient(AWSCredentialsProvider,EncryptionMaterialsProvider) in AmazonS3EncryptionClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\main\java\org\apache\nifi\processors\aws\cloudwatch\PutCloudWatchMetric.java:[251,15] [deprecation] AmazonCloudWatchClient(AWSCredentialsProvider,ClientConfiguration) in AmazonCloudWatchClient has been deprecated
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ nifi-aws-processors ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ nifi-aws-processors ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 55 source files to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\test-classes
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITDeleteS3Object.java:[19,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\credentials\provider\service\AWSProcessorProxyTest.java:[19,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITPutSQS.java:[25,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITFetchS3Object.java:[20,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\credentials\provider\factory\TestCredentialsProviderFactory.java:[33,29] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\wag\TestInvokeAWSGatewayApiCommon.java:[35,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITGetSQS.java:[21,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITListS3.java:[20,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[36,29] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\credentials\provider\service\AWSCredentialsProviderControllerServiceTest.java:[25,37] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\credentials\provider\service\AWSCredentialsProviderControllerServiceTest.java:[39,29] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\AbstractS3IT.java:[94,21] [deprecation] AmazonS3Client(AWSCredentials) in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\AbstractS3IT.java:[95,24] [deprecation] AWSKMSClient(AWSCredentials) in AWSKMSClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\AbstractS3IT.java:[96,21] [deprecation] setRegion(Region) in AWSKMS has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITDeleteS3Object.java:[85,40] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\dynamodb\ITAbstractDynamoDBTest.java:[55,31] [deprecation] AmazonDynamoDBClient(AWSCredentials) in AmazonDynamoDBClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\dynamodb\ITAbstractDynamoDBTest.java:[57,28] [deprecation] setRegion(Region) in AmazonWebServiceClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITPutSQS.java:[67,40] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITDeleteSQS.java:[52,20] [deprecation] AmazonSQSClient(AWSCredentials) in AmazonSQSClient has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITDeleteSQS.java:[53,17] [deprecation] <T>withRegion(Regions) in AmazonWebServiceClient has been deprecated
+  where T is a type-variable:
+    T extends AmazonWebServiceClient declared in method <T>withRegion(Regions)
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITFetchS3Object.java:[94,40] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\wag\TestInvokeAWSGatewayApiCommon.java:[72,27] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITPutS3Object.java:[472,14] [deprecation] setRegion(Region) in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITPutS3Object.java:[1179,12] [deprecation] AmazonS3Client() in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\sqs\ITGetSQS.java:[81,40] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\s3\ITListS3.java:[72,40] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[53,12] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[73,37] [deprecation] createClient(ProcessContext,AWSCredentials,ClientConfiguration) in AbstractAWSProcessor has been deprecated
+  where ClientType is a type-variable:
+    ClientType extends AmazonWebServiceClient declared in class AbstractAWSProcessor
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[65,24] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[66,24] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[67,24] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[68,24] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[76,42] [deprecation] AmazonS3Client(AWSCredentials,ClientConfiguration) in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[84,42] [deprecation] AmazonS3Client(AWSCredentialsProvider,ClientConfiguration) in AmazonS3Client has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[106,27] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[107,27] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[118,27] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[132,41] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[133,41] [deprecation] AbstractAWSProcessor in org.apache.nifi.processors.aws has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\TestAWSCredentials.java:[141,21] [deprecation] StaticCredentialsProvider in com.amazonaws.internal has been deprecated
+[WARNING] C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\src\test\java\org\apache\nifi\processors\aws\credentials\provider\factory\MockAWSProcessor.java:[98,34] [deprecation] AmazonS3Client(AWSCredentialsProvider,ClientConfiguration) in AmazonS3Client has been deprecated
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-processors ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Using Groovy-Eclipse compiler to compile both Java and Groovy files
+[INFO] Compiling in a forked process using C:\Work\.m2\test-repository\org\codehaus\groovy\groovy-eclipse-batch\2.5.4-01\groovy-eclipse-batch-2.5.4-01.jar
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ nifi-aws-processors ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.nifi.processors.aws.cloudwatch.TestPutCloudWatchMetric
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.194 s - in org.apache.nifi.processors.aws.cloudwatch.TestPutCloudWatchMetric
+[INFO] Running org.apache.nifi.processors.aws.credentials.provider.factory.TestCredentialsProviderFactory
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s - in org.apache.nifi.processors.aws.credentials.provider.factory.TestCredentialsProviderFactory
+[INFO] Running org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderControllerServiceTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s - in org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderControllerServiceTest
+[INFO] Running org.apache.nifi.processors.aws.credentials.provider.service.AWSProcessorProxyTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.apache.nifi.processors.aws.credentials.provider.service.AWSProcessorProxyTest
+[INFO] Running org.apache.nifi.processors.aws.dynamodb.DeleteDynamoDBTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.547 s - in org.apache.nifi.processors.aws.dynamodb.DeleteDynamoDBTest
+[INFO] Running org.apache.nifi.processors.aws.dynamodb.GetDynamoDBTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s - in org.apache.nifi.processors.aws.dynamodb.GetDynamoDBTest
+[INFO] Running org.apache.nifi.processors.aws.dynamodb.ItemKeysTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.apache.nifi.processors.aws.dynamodb.ItemKeysTest
+[INFO] Running org.apache.nifi.processors.aws.dynamodb.ITPutGetDeleteGetDynamoDBTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s - in org.apache.nifi.processors.aws.dynamodb.ITPutGetDeleteGetDynamoDBTest
+[INFO] Running org.apache.nifi.processors.aws.dynamodb.PutDynamoDBTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.08 s - in org.apache.nifi.processors.aws.dynamodb.PutDynamoDBTest
+[INFO] Running org.apache.nifi.processors.aws.kinesis.firehose.TestPutKinesisFirehose
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s - in org.apache.nifi.processors.aws.kinesis.firehose.TestPutKinesisFirehose
+[INFO] Running org.apache.nifi.processors.aws.kinesis.stream.TestPutKinesisStream
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s - in org.apache.nifi.processors.aws.kinesis.stream.TestPutKinesisStream
+[INFO] Running org.apache.nifi.processors.aws.lambda.TestPutLambda
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.218 s - in org.apache.nifi.processors.aws.lambda.TestPutLambda
+[INFO] Running org.apache.nifi.processors.aws.s3.encryption.TestClientSideCEncryptionStrategyKeyValidation
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in org.apache.nifi.processors.aws.s3.encryption.TestClientSideCEncryptionStrategyKeyValidation
+[INFO] Running org.apache.nifi.processors.aws.s3.encryption.TestS3EncryptionStrategies
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.32 s - in org.apache.nifi.processors.aws.s3.encryption.TestS3EncryptionStrategies
+[INFO] Running org.apache.nifi.processors.aws.s3.encryption.TestServerSideCEncryptionStrategyKeyValidation
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.apache.nifi.processors.aws.s3.encryption.TestServerSideCEncryptionStrategyKeyValidation
+[INFO] Running org.apache.nifi.processors.aws.s3.encryption.TestStandardS3EncryptionService
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s - in org.apache.nifi.processors.aws.s3.encryption.TestStandardS3EncryptionService
+[INFO] Running org.apache.nifi.processors.aws.s3.encryption.TestStandardS3EncryptionServiceValidation
+[INFO] Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in org.apache.nifi.processors.aws.s3.encryption.TestStandardS3EncryptionServiceValidation
+[INFO] Running org.apache.nifi.processors.aws.s3.PutS3ObjectTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.253 s - in org.apache.nifi.processors.aws.s3.PutS3ObjectTest
+[INFO] Running org.apache.nifi.processors.aws.s3.TestDeleteS3Object
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.202 s - in org.apache.nifi.processors.aws.s3.TestDeleteS3Object
+[INFO] Running org.apache.nifi.processors.aws.s3.TestFetchS3Object
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s - in org.apache.nifi.processors.aws.s3.TestFetchS3Object
+[INFO] Running org.apache.nifi.processors.aws.s3.TestListS3
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s - in org.apache.nifi.processors.aws.s3.TestListS3
+[INFO] Running org.apache.nifi.processors.aws.s3.TestPutS3Object
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s - in org.apache.nifi.processors.aws.s3.TestPutS3Object
+[INFO] Running org.apache.nifi.processors.aws.s3.TestTagS3Object
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s - in org.apache.nifi.processors.aws.s3.TestTagS3Object
+[INFO] Running org.apache.nifi.processors.aws.sns.TestPutSNS
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s - in org.apache.nifi.processors.aws.sns.TestPutSNS
+[INFO] Running org.apache.nifi.processors.aws.sqs.TestDeleteSQS
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.11 s - in org.apache.nifi.processors.aws.sqs.TestDeleteSQS
+[INFO] Running org.apache.nifi.processors.aws.sqs.TestGetSQS
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s - in org.apache.nifi.processors.aws.sqs.TestGetSQS
+[INFO] Running org.apache.nifi.processors.aws.sqs.TestPutSQS
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in org.apache.nifi.processors.aws.sqs.TestPutSQS
+[INFO] Running org.apache.nifi.processors.aws.TestAWSCredentials
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s - in org.apache.nifi.processors.aws.TestAWSCredentials
+[INFO] Running org.apache.nifi.processors.aws.wag.TestInvokeAmazonGatewayApiMock
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s - in org.apache.nifi.processors.aws.wag.TestInvokeAmazonGatewayApiMock
+[INFO] Running org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithControllerService
+[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.704 s - in org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithControllerService
+[INFO] Running org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithCredFile
+[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.522 s - in org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithCredFile
+[INFO] Running org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithStaticAuth
+[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.556 s - in org.apache.nifi.processors.aws.wag.TestInvokeInvokeAmazonGatewayApiWithStaticAuth
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 363, Failures: 0, Errors: 0, Skipped: 1
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.0:jar (default-jar) @ nifi-aws-processors ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-processors ---
+[INFO] Skipping because packaging 'jar' is not pom.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-processors ---
+[INFO] Skipping the assembly in this project because it's not the Execution Root
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-processors ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-processors ---
+[WARNING] Are you sure about the <javadocVersion/> parameter? It seems to be 1.8.0
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-processors ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-processors ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-processors ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-processors\1.11.4.1-SNAPSHOT\nifi-aws-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-processors\1.11.4.1-SNAPSHOT\nifi-aws-processors-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT-sources.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-processors\1.11.4.1-SNAPSHOT\nifi-aws-processors-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-processors\target\nifi-aws-processors-1.11.4.1-SNAPSHOT-javadoc.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-processors\1.11.4.1-SNAPSHOT\nifi-aws-processors-1.11.4.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-processors ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] 
+[INFO] --------------< org.apache.nifi:nifi-aws-service-api-nar >--------------
+[INFO] Building nifi-aws-service-api-nar 1.11.4.1-SNAPSHOT                [5/6]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-service-api-nar ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-service-api-nar ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ nifi-aws-service-api-nar ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ nifi-aws-service-api-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ nifi-aws-service-api-nar ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\src\test\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ nifi-aws-service-api-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-service-api-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- nifi-nar-maven-plugin:1.3.1:nar (default-nar) @ nifi-aws-service-api-nar ---
+[INFO] Copying httpclient-4.5.9.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\httpclient-4.5.9.jar
+[INFO] Copying aws-java-sdk-kms-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-kms-1.11.677.jar
+[INFO] Copying jackson-dataformat-cbor-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\jackson-dataformat-cbor-2.9.10.jar
+[INFO] Copying httpcore-4.4.11.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\httpcore-4.4.11.jar
+[INFO] Copying nifi-aws-service-api-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\nifi-aws-service-api-1.11.4.1-SNAPSHOT.jar
+[INFO] Copying commons-logging-1.1.3.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\commons-logging-1.1.3.jar
+[INFO] Copying joda-time-2.8.1.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\joda-time-2.8.1.jar
+[INFO] Copying aws-java-sdk-s3-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-s3-1.11.677.jar
+[INFO] Copying jmespath-java-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\jmespath-java-1.11.677.jar
+[INFO] Copying ion-java-1.0.2.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\ion-java-1.0.2.jar
+[INFO] Copying commons-codec-1.11.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\commons-codec-1.11.jar
+[INFO] Copying jackson-annotations-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\jackson-annotations-2.9.10.jar
+[INFO] Copying jackson-core-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\jackson-core-2.9.10.jar
+[INFO] Copying jackson-databind-2.9.10.3.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\jackson-databind-2.9.10.3.jar
+[INFO] Copying aws-java-sdk-core-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-core-1.11.677.jar
+[INFO] Generating documentation for NiFi extensions in the NAR...
+[INFO] Found NAR dependency of org.apache.nifi:nifi-standard-services-api-nar:nar:1.11.4.1-SNAPSHOT:compile
+[INFO] Found NAR dependency of org.apache.nifi:nifi-jetty-bundle:nar:1.11.4.1-SNAPSHOT:compile
+[INFO] Found a dependency on version 1.11.4.1-SNAPSHOT of NiFi API
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT.nar
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-service-api-nar ---
+[INFO] Skipping because packaging 'nar' is not pom.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-service-api-nar ---
+[INFO] Skipping the assembly in this project because it's not the Execution Root
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-service-api-nar ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-service-api-nar ---
+[INFO] Skipping javadoc generation
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-service-api-nar ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-service-api-nar ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT.nar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api-nar\1.11.4.1-SNAPSHOT\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT.nar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api-nar\1.11.4.1-SNAPSHOT\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-service-api-nar\target\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT-sources.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-service-api-nar\1.11.4.1-SNAPSHOT\nifi-aws-service-api-nar-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-service-api-nar ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] 
+[INFO] --------------------< org.apache.nifi:nifi-aws-nar >--------------------
+[INFO] Building nifi-aws-nar 1.11.4.1-SNAPSHOT                            [6/6]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ nifi-aws-nar ---
+[INFO] Deleting C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven-version) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4.1:enforce (enforce-maven) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.7.0:process (process-resource-bundles) @ nifi-aws-nar ---
+[INFO] Preparing remote bundle org.apache:apache-jar-resource-bundle:1.4
+[INFO] Copying 3 resources from 1 bundle.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ nifi-aws-nar ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ nifi-aws-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ nifi-aws-nar ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\src\test\resources
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ nifi-aws-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (groovy-tests) @ nifi-aws-nar ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- nifi-nar-maven-plugin:1.3.1:nar (default-nar) @ nifi-aws-nar ---
+[INFO] Copying nifi-aws-processors-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-aws-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] Copying aws-java-sdk-kms-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-kms-1.11.677.jar
+[INFO] Copying jackson-dataformat-cbor-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jackson-dataformat-cbor-2.9.10.jar
+[INFO] Copying aws-java-sdk-cloudwatchmetrics-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-cloudwatchmetrics-1.11.677.jar
+[INFO] Copying commons-lang3-3.9.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-lang3-3.9.jar
+[INFO] Copying joda-time-2.8.1.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\joda-time-2.8.1.jar
+[INFO] Copying aws-java-sdk-kinesis-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-kinesis-1.11.677.jar
+[INFO] Copying nifi-utils-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-utils-1.11.4.1-20200603.175913-5.jar
+[INFO] Copying commons-codec-1.12.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-codec-1.12.jar
+[INFO] Copying aws-java-sdk-s3-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-s3-1.11.677.jar
+[INFO] Copying aws-java-sdk-dynamodb-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-dynamodb-1.11.677.jar
+[INFO] Copying nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-aws-abstract-processors-1.11.4.1-SNAPSHOT.jar
+[INFO] Copying nifi-security-utils-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-security-utils-1.11.4.1-20200603.175925-4.jar
+[INFO] Copying commons-io-2.6.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-io-2.6.jar
+[INFO] Copying jackson-annotations-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jackson-annotations-2.9.10.jar
+[INFO] Copying jackson-core-2.9.10.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jackson-core-2.9.10.jar
+[INFO] Copying commons-text-1.6.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-text-1.6.jar
+[INFO] Copying jackson-databind-2.9.10.3.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jackson-databind-2.9.10.3.jar
+[INFO] Copying nifi-proxy-configuration-api-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-proxy-configuration-api-1.11.4.1-20200603.180502-4.jar
+[INFO] Copying aws-java-sdk-core-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-core-1.11.677.jar
+[INFO] Copying bcprov-jdk15on-1.61.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\bcprov-jdk15on-1.61.jar
+[INFO] Copying httpclient-4.5.9.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\httpclient-4.5.9.jar
+[INFO] Copying bcpkix-jdk15on-1.61.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\bcpkix-jdk15on-1.61.jar
+[INFO] Copying jBCrypt-0.4.1.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jBCrypt-0.4.1.jar
+[INFO] Copying httpcore-4.4.11.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\httpcore-4.4.11.jar
+[INFO] Copying aws-java-sdk-sqs-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-sqs-1.11.677.jar
+[INFO] Copying aws-java-sdk-sts-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-sts-1.11.677.jar
+[INFO] Copying aws-java-sdk-cloudwatch-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-cloudwatch-1.11.677.jar
+[INFO] Copying aws-java-sdk-lambda-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-lambda-1.11.677.jar
+[INFO] Copying commons-logging-1.1.3.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-logging-1.1.3.jar
+[INFO] Copying jmespath-java-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\jmespath-java-1.11.677.jar
+[INFO] Copying ion-java-1.0.2.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\ion-java-1.0.2.jar
+[INFO] Copying aws-java-sdk-sns-1.11.677.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\aws-java-sdk-sns-1.11.677.jar
+[INFO] Copying nifi-processor-utils-1.11.4.1-SNAPSHOT.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\nifi-processor-utils-1.11.4.1-20200603.180451-4.jar
+[INFO] Copying commons-configuration2-2.4.jar to C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\classes\META-INF\bundled-dependencies\commons-configuration2-2.4.jar
+[INFO] Generating documentation for NiFi extensions in the NAR...
+[INFO] Found NAR dependency of org.apache.nifi:nifi-aws-service-api-nar:nar:1.11.4.1-SNAPSHOT:compile
+[INFO] Found NAR dependency of org.apache.nifi:nifi-standard-services-api-nar:nar:1.11.4.1-SNAPSHOT:compile
+[INFO] Found NAR dependency of org.apache.nifi:nifi-jetty-bundle:nar:1.11.4.1-SNAPSHOT:compile
+[INFO] Found a dependency on version 1.11.4.1-SNAPSHOT of NiFi API
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\nifi-aws-nar-1.11.4.1-SNAPSHOT.nar
+[INFO] 
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ nifi-aws-nar ---
+[INFO] Skipping because packaging 'nar' is not pom.
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.2.0:single (source-release-assembly) @ nifi-aws-nar ---
+[INFO] Skipping the assembly in this project because it's not the Execution Root
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.1:jar-no-fork (attach-sources) @ nifi-aws-nar ---
+[INFO] Building jar: C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\nifi-aws-nar-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:3.0.1:jar (attach-javadocs) @ nifi-aws-nar ---
+[INFO] Skipping javadoc generation
+[INFO] 
+[INFO] --- maven-gpg-plugin:1.6:sign (sign-release-artifacts) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- checksum-maven-plugin:1.7:files (source-release-checksum) @ nifi-aws-nar ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ nifi-aws-nar ---
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\nifi-aws-nar-1.11.4.1-SNAPSHOT.nar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-nar\1.11.4.1-SNAPSHOT\nifi-aws-nar-1.11.4.1-SNAPSHOT.nar
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\pom.xml to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-nar\1.11.4.1-SNAPSHOT\nifi-aws-nar-1.11.4.1-SNAPSHOT.pom
+[INFO] Installing C:\Work\RCC\nifi\nifi-aws-web-identity-token\nifi-nar-bundles\nifi-aws-bundle\nifi-aws-nar\target\nifi-aws-nar-1.11.4.1-SNAPSHOT-sources.jar to C:\Work\.m2\test-repository\org\apache\nifi\nifi-aws-nar\1.11.4.1-SNAPSHOT\nifi-aws-nar-1.11.4.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-deploy-plugin:2.8.2:deploy (default-deploy) @ nifi-aws-nar ---
+[INFO] Using alternate deployment repository libs-snapshot-local::default::http://localhost:8082/artifactory/libs-snapshot-local
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for nifi-aws-bundle 1.11.4.1-SNAPSHOT:
+[INFO] 
+[INFO] nifi-aws-bundle .................................... SUCCESS [  4.026 s]
+[INFO] nifi-aws-service-api ............................... SUCCESS [  3.162 s]
+[INFO] nifi-aws-abstract-processors ....................... SUCCESS [  5.071 s]
+[INFO] nifi-aws-processors ................................ SUCCESS [ 52.867 s]
+[INFO] nifi-aws-service-api-nar ........................... SUCCESS [  1.442 s]
+[INFO] nifi-aws-nar ....................................... SUCCESS [  3.622 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:11 min
+[INFO] Finished at: 2020-06-04T14:33:15+01:00
+[INFO] ------------------------------------------------------------------------
