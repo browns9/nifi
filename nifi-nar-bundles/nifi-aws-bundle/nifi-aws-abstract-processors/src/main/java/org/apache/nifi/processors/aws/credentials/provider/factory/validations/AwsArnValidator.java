@@ -23,7 +23,6 @@ import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.PropertyValue;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
-import org.apache.nifi.components.Validator;
 
 import com.amazonaws.arn.Arn;
 
@@ -35,14 +34,7 @@ import com.amazonaws.arn.Arn;
  * @author Steve Brown, Estafet Ltd.
  *
  */
-public final class AwsArnValidator implements Validator {
-
-    /**
-     * Constructor.
-     */
-    public AwsArnValidator() {
-        super();
-    }
+public final class AwsArnValidator extends AbstractPropertyValidator {
 
     /**
      * Validate an AWS ARN.
@@ -62,29 +54,41 @@ public final class AwsArnValidator implements Validator {
     @Override
     public ValidationResult validate(final String subject, final String input, final ValidationContext context) {
 
-        String reason = null;
 
         if (StringUtils.isBlank(input)) {
-            reason = "an ARN cannot be empty or blank.";
-        } else {
-            try {
-                // Validate the ARN.
-                @SuppressWarnings("unused")
-                final Arn arn = Arn.fromString(input);
-            } catch (final IllegalArgumentException iae) {
-                reason = iae.getMessage();
-            }
+
+            return new ValidationResult.Builder().subject(subject)
+                                                 .input(input)
+                                                 .valid(false)
+                                                 .explanation("an ARN cannot be empty or blank.")
+                                                 .build();
         }
 
-        final boolean isValid = reason == null;
+        final ValidationResult evaluationResult = validateExpressionLanguageInPropertyValue(subject, input, context);
+
+        if (!evaluationResult.isValid()) {
+            return evaluationResult;
+        }
+
+        try {
+            // Validate the ARN.
+            @SuppressWarnings("unused")
+            final Arn arn = Arn.fromString(evaluatedInput);
+        } catch (final IllegalArgumentException iae) {
+
+            return new ValidationResult.Builder().subject(subject)
+                                                 .input(input)
+                                                 .valid(false)
+                                                 .explanation(iae.getMessage())
+                                                 .build();
+        }
 
         return new ValidationResult.Builder().subject(subject)
                                              .input(input)
-                                             .valid(isValid)
-                                             .explanation(reason)
+                                             .valid(true)
+                                             .explanation(null)
                                              .build();
     }
-
 
     /**
      * Validate the Web Role ARN.

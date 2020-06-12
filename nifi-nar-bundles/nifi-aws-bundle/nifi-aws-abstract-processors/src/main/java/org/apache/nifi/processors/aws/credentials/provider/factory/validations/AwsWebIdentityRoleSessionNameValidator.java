@@ -21,13 +21,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.PropertyValue;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
-import org.apache.nifi.components.Validator;
-import org.apache.nifi.processor.exception.ProcessException;
-import org.apache.nifi.processor.util.StandardValidators;
 
 /**
  * Class to validate an AWS Web Identity Role Session Name.
@@ -35,7 +33,7 @@ import org.apache.nifi.processor.util.StandardValidators;
  * @author Steve Brown, Estafet Ltd.
  *
  */
-public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
+public final class AwsWebIdentityRoleSessionNameValidator extends AbstractPropertyValidator {
 
     /**
      * Regular Expression {@link Pattern} to match a web identity role session name.
@@ -71,11 +69,12 @@ public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
      * case alphanumeric characters with no spaces. You can also include underscores or any of the following
      * characters: =,.@- .
      * </code>
-     * <p>This regex enforces a minimum length of 8 and a maximum length of 64 characters.
+     * <p>This regular expression enforces a minimum length of 8 and a maximum length of 64 characters.</p>
      */
-    private static final String WEB_IDENTITY_ROLE_SESSION_NAME_REGEX = "^[A-Za-z][A-Za-z0-9_=,.@-]{" +
-            (MINIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH - 1) + "," +
-            (MAXIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH - 1) + "}$";
+    private static final String WEB_IDENTITY_ROLE_SESSION_NAME_REGEX =
+                                                "^[A-Za-z][A-Za-z0-9_=,.@-]{" +
+                                                (MINIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH - 1) + "," +
+                                                (MAXIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH - 1) + "}$";
 
     static {
         try {
@@ -91,13 +90,6 @@ public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
             error.initCause(pse);
             throw error;
         }
-    }
-
-    /**
-     * Constructor.
-     */
-    public AwsWebIdentityRoleSessionNameValidator() {
-        super();
     }
 
     /**
@@ -117,25 +109,11 @@ public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
     @Override
     public ValidationResult validate(final String subject, final String input, final ValidationContext context) {
 
-       // Check the NiFi expression.
-       final ValidationResult evaluationResult =
-               StandardValidators.ATTRIBUTE_EXPRESSION_LANGUAGE_VALIDATOR.validate(subject, input, context);
+        final ValidationResult evaluationResult =
+                                super.validateExpressionLanguageInPropertyValue(subject, input, context);
 
-        if (!evaluationResult.isValid()) {
+        if (!evaluationResult.isValid() || !StringUtils.isEmpty(super.evaluatedInput)) {
             return evaluationResult;
-        }
-
-        // Evaluate the NiFi expression.
-        String evaluatedInput = input;
-        try {
-            evaluatedInput = getEvaluatedValue(subject, input, context);
-        } catch (final ProcessException pe) {
-            return new ValidationResult.Builder().subject(subject)
-                                                 .input(input)
-                                                 .explanation("Not a valid NiFi expression. The error is " +
-                                                              pe.getMessage() + ".")
-                                                 .valid(false)
-                                                 .build();
         }
 
         // Validate the Web Identity Role Session Name value against the regular expression.
@@ -147,57 +125,6 @@ public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
                                              .explanation(buildExplanation(subject, input))
                                              .build();
     }
-
-    /**
-     * Get the evaluated value of the Web Identity Role Session Name
-     *
-     * @param subject
-     *          What is being validated.
-     * @param input
-     *          The string (value) to be validated.
-     * @param context
-     *          The {@link ValidationContext} to use when validating properties.
-     * @return
-     *          The evaluated value.
-     * @throws ProcessException
-     *          When an error occurs.
-     */
-    private String getEvaluatedValue(final String subject,
-                                     final String input,
-                                     final ValidationContext context) throws ProcessException {
-        String evaluatedValue = input;
-        if (context.isExpressionLanguageSupported(subject) && context.isExpressionLanguagePresent(input)) {
-            final PropertyValue propertyValue = context.newPropertyValue(input);
-            evaluatedValue = propertyValue.evaluateAttributeExpressions().getValue();
-        }
-
-        return evaluatedValue;
-    }
-
-    /**
-     * Build the description from the specified subject and input.
-     * @param subject
-     *          What is being being validated.
-     * @param input
-     *          The value being validated.
-     * @return
-     *          The description.
-     */
-    private String buildExplanation(final String subject, final String input) {
-        final StringBuilder builder = new StringBuilder(2048);
-
-        builder.append(input).append("\" is not a valid ").append(subject).append("\n")
-               .append("A web identity role session name must be between ")
-               .append(MINIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH)
-               .append(" and ")
-               .append(MAXIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH)
-               .append(" characters long.\n")
-               .append("It must not contain space or tab characters.\n")
-               .append("It must start with an alphabetic character.\n")
-               .append("The remaining characters can be alphanumeric, '_', '=', ',', '.', '@', or '-'.\n");
-        return builder.toString();
-    }
-
 
     /**
      * Validate the Web Identity Role Session Name.
@@ -245,5 +172,29 @@ public final class AwsWebIdentityRoleSessionNameValidator implements Validator {
         if (!validationResult.isValid()) {
             validationFailureResults.add(validationResult);
         }
+    }
+
+    /**
+     * Build the description from the specified subject and input.
+     * @param subject
+     *          What is being being validated.
+     * @param input
+     *          The value being validated.
+     * @return
+     *          The description.
+     */
+    private String buildExplanation(final String subject, final String input) {
+        final StringBuilder builder = new StringBuilder(2048);
+
+        builder.append(input).append("\" is not a valid ").append(subject).append("\n")
+               .append("A web identity role session name must be between ")
+               .append(MINIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH)
+               .append(" and ")
+               .append(MAXIMUM_WEB_IDENTITY_ROLE_SESSION_NAME_LENGTH)
+               .append(" characters long.\n")
+               .append("It must not contain space or tab characters.\n")
+               .append("It must start with an alphabetic character.\n")
+               .append("The remaining characters can be alphanumeric, '_', '=', ',', '.', '@', or '-'.\n");
+        return builder.toString();
     }
 }

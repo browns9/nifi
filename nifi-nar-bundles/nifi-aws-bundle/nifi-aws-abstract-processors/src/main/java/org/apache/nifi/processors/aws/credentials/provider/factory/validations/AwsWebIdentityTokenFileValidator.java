@@ -27,8 +27,6 @@ import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.PropertyValue;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
-import org.apache.nifi.components.Validator;
-import org.apache.nifi.processor.exception.ProcessException;
 
 
 /**
@@ -37,31 +35,7 @@ import org.apache.nifi.processor.exception.ProcessException;
  * @author Steve Brown, Estafet Ltd.
  *
  */
-public final class AwsWebIdentityTokenFileValidator implements Validator {
-
-    /**
-     * {@code true} if the value being validated can contain a NiFi expression.
-     */
-    final boolean allowExpressionLanguage;
-
-    /**
-     * Constructor.
-     *
-     * <p>The default is to allow NiFi expressions.</p>
-     */
-    public AwsWebIdentityTokenFileValidator() {
-        this(true);
-    }
-
-    /**
-     * Constructor.
-     * @param allowExpressionLanguageFlag
-     *          {@code true} to allow NiFi expressions.
-     */
-    public AwsWebIdentityTokenFileValidator(final boolean allowExpressionLanguageFlag) {
-        super();
-        allowExpressionLanguage = allowExpressionLanguageFlag;
-    }
+public final class AwsWebIdentityTokenFileValidator extends AbstractPropertyValidator {
 
     /**
      * Validate an AWS Web Identity Token File.
@@ -80,15 +54,14 @@ public final class AwsWebIdentityTokenFileValidator implements Validator {
 
         ValidationResult validationResult = null;
         if (StringUtils.isBlank(input)) {
-            validationResult = new ValidationResult.Builder()
-                    .subject(subject)
-                    .input(input)
-                    .valid(false)
-                    .explanation("the Web Identity Token File cannot be empty or blank.")
-                    .build();
-        } else {
-            validationResult = internalValidate(subject, input, context);
+            return validationResult = new ValidationResult.Builder()
+                                                .subject(subject)
+                                                .input(input)
+                                                .valid(false)
+                                                .explanation("the Web Identity Token File cannot be empty or blank.")
+                                                .build();
         }
+        validationResult = internalValidate(subject, input, context);
 
         return validationResult;
     }
@@ -157,33 +130,17 @@ public final class AwsWebIdentityTokenFileValidator implements Validator {
     private ValidationResult internalValidate(final String subject,
                                               final String input,
                                               final ValidationContext context) {
-        if (context.isExpressionLanguageSupported(subject) && context.isExpressionLanguagePresent(input)) {
-            return new ValidationResult.Builder().subject(subject)
-                                                 .input(input).explanation("Expression Language Present")
-                                                 .valid(true)
-                                                 .build();
+        final ValidationResult evaluationResult = validateExpressionLanguageInPropertyValue(subject, input, context);
+
+        if (!evaluationResult.isValid()) {
+            return evaluationResult;
         }
-
-        String evaluatedValue = null;
-        try {
-            evaluatedValue = getEvaluatedValue(input, context);
-        } catch (final ProcessException pe) {
-            return new ValidationResult.Builder().subject(subject)
-                                                 .input(input)
-                                                 .valid(false)
-                                                 .explanation(" the input contains an inavlid NiFi expression. " +
-                                                 "The error is\n" +
-                                                 pe.getMessage() + "\n")
-                                                 .build();
-
-        }
-
-        Path path = Paths.get(evaluatedValue);
+        Path path = Paths.get(evaluatedInput);
 
         try {
             path = path.toRealPath();
         } catch (final IOException ioe) {
-            final String explanation = "An error occurred getting the real path from " + evaluatedValue + ". " +
+            final String explanation = "An error occurred getting the real path from " + evaluatedInput + ". " +
                                        "This can happen if the effective user does not have permissions to " +
                                        "access all the components of the path. The error is\n" +
                                        ioe.getMessage() + "\n";
@@ -205,25 +162,5 @@ public final class AwsWebIdentityTokenFileValidator implements Validator {
                                              .valid(isRegularFile)
                                              .explanation(explanation)
                                              .build();
-    }
-
-    /**
-     * Evaluate the NiFi expressions in the {@code input}.
-     * @param input
-     *          The string to evaluate.
-     * @param context
-     *          The {@link ValidationContext} to evaluate the string in.
-     * @return
-     *          The evaluated input.
-     * @throws ProcessException
-     *          If the input contains an invalid NiFI expression.
-     */
-    private String getEvaluatedValue(final String input,
-                                     final ValidationContext context) throws ProcessException {
-        String evaluated = input;
-        if (allowExpressionLanguage) {
-            evaluated = context.newPropertyValue(input).evaluateAttributeExpressions().getValue();
-        }
-        return evaluated;
     }
 }
