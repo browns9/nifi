@@ -33,6 +33,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
  *
  * @see <a href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html">AWSCredentialsProvider</a>
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractAWSCredentialsProviderProcessor<ClientType extends AmazonWebServiceClient>
     extends AbstractAWSProcessor<ClientType>  {
 
@@ -53,14 +54,13 @@ public abstract class AbstractAWSCredentialsProviderProcessor<ClientType extends
      * is, uses the credentials provider, otherwise it invokes the {@link AbstractAWSProcessor#onScheduled(ProcessContext)}
      * which uses static AWSCredentials for the aws processors
      */
+    @Override
     @OnScheduled
     public void onScheduled(ProcessContext context) {
         ControllerService service = context.getProperty(AWS_CREDENTIALS_PROVIDER_SERVICE).asControllerService();
         if (service != null) {
-            getLogger().debug("Using aws credentials provider service for creating client");
             onScheduledUsingControllerService(context);
         } else {
-            getLogger().debug("Using aws credentials for creating client");
             super.onScheduled(context);
         }
     }
@@ -70,7 +70,13 @@ public abstract class AbstractAWSCredentialsProviderProcessor<ClientType extends
      * @param context the process context
      */
     protected void onScheduledUsingControllerService(ProcessContext context) {
-        final ClientType awsClient = createClient(context, getCredentialsProvider(context), createConfiguration(context));
+        getLogger().debug("Using aws credentials provider service for creating client");
+        final AWSCredentialsProvider credentialsProvider = getCredentialsProvider(context);
+        final ClientConfiguration configuration = createConfiguration(context);
+        final ClientType awsClient = createClient(context, credentialsProvider, configuration);
+        getLogger().debug("Created client " + awsClient.getClass().getName() +
+                          ", using aws credential provider " + credentialsProvider.getClass().getName() +
+                          " and configuration " + configuration.getClass().getName() + ".");
         this.client = awsClient;
         super.initializeRegionAndEndpoint(context);
 
