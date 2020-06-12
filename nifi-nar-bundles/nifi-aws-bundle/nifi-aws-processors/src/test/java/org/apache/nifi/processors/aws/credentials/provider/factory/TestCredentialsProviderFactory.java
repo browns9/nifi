@@ -136,9 +136,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAccessKeyPairIncompleteS3() {
-        final TestRunner runner = TestRunners.newTestRunner(FetchS3Object.class);
-        runner.setProperty(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
-        runner.assertNotValid();
+        final TestRunner s3Runner = TestRunners.newTestRunner(FetchS3Object.class);
+        s3Runner.setProperty(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
+        s3Runner.assertNotValid();
     }
 
     /**
