@@ -232,6 +232,8 @@ public class CredentialPropertyDescriptors {
     /**
      * {@link PropertyDescriptor} for an AWS Web Identity role session name.
      *
+     * <p>The AWS Identity Role Session Name property allows NiFi Expressions.</p>
+     *
      * <p>The <a href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html">AWS CLI documentation</a>
      * describes the Web Identity Role Session Name parameter.</p>
      */
@@ -248,7 +250,7 @@ public class CredentialPropertyDescriptors {
     /**
      * {@link PropertyDescriptor} for an AWS Web Identity Token file used for temporary secure credential.
      *
-     * <p>The AWS Identity Token File property does not allow NiFi Expressions.</p>
+     * <p>The AWS Identity Token File property allows NiFi Expressions.</p>
      *
      * <p>The <a href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html">AWS CLI documentation</a>
      * describes the Web Identity Role Session Name parameter.</p>
