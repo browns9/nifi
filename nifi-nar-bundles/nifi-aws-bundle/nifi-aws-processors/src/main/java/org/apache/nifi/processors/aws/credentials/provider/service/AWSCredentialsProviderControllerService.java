@@ -59,7 +59,8 @@ import static org.apache.nifi.processors.aws.credentials.provider.factory.Creden
 @CapabilityDescription("Defines credentials for Amazon Web Services processors. " +
         "Uses default credentials without configuration. " +
         "Default credentials support EC2 instance profile/role, default user profile, environment variables, etc. " +
-        "Additional options include access key / secret key pairs, credentials file, named profile, and assume role credentials.")
+        "Additional options include access key / secret key pairs, credentials file, named profile, assume role " +
+        "credentials, and Web Identity Token credentials.")
 @Tags({ "aws", "credentials","provider" })
 public class AWSCredentialsProviderControllerService extends AbstractControllerService implements AWSCredentialsProviderService {
 
@@ -198,14 +199,14 @@ public class AWSCredentialsProviderControllerService extends AbstractControllerS
     @SuppressWarnings("unused")
     @OnEnabled
     public void onConfigured(final ConfigurationContext context) throws InitializationException {
-        final Map<PropertyDescriptor, String> properties = context.getProperties();
-        properties.keySet().forEach(propertyDescriptor -> {
+        final Map<PropertyDescriptor, String> credentialsProviderProperties = context.getProperties();
+        credentialsProviderProperties.keySet().forEach(propertyDescriptor -> {
             if (propertyDescriptor.isExpressionLanguageSupported()) {
-                properties.put(propertyDescriptor,
+                credentialsProviderProperties.put(propertyDescriptor,
                         context.getProperty(propertyDescriptor).evaluateAttributeExpressions().getValue());
             }
         });
-        credentialsProvider = credentialsProviderFactory.getCredentialsProvider(properties);
+        credentialsProvider = credentialsProviderFactory.getCredentialsProvider(credentialsProviderProperties);
         getLogger().debug("Using credentials provider: " + credentialsProvider.getClass());
     }
 
