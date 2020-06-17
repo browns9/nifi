@@ -496,6 +496,17 @@ public class AWSCredentialsProviderControllerServiceTest {
     }
 
     /**
+     * Test web identity role session name for Web Identity Token Strategy is not set.
+     */
+    @Test
+    public void testWebIdentityTokenCredentialsWebIdentityRoleSessionNameNotSet() {
+        setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN, VALID_ROLE_ARN);
+        setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE, VALID_CREDENTENTIALS_FILE);
+
+        doServiceTest(STSAssumeRoleWithWebIdentitySessionCredentialsProvider.class);
+    }
+
+    /**
      * Test web identity role ARN not set for Web Identity Token Strategy.
      */
     @Test
@@ -513,17 +524,6 @@ public class AWSCredentialsProviderControllerServiceTest {
     public void testWebIdentityTokenCredentialsWebIdentityBadRoleArn() {
         setInvalidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN, INVALID_ROLE_ARN);
         setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, DUMMY_SESSION_ROLE_NAME);
-        setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE, VALID_CREDENTENTIALS_FILE);
-
-        runner.assertNotValid(serviceImpl);
-    }
-
-    /**
-     * Test web identity role session name for Web Identity Token Strategy is not set.
-     */
-    @Test
-    public void testWebIdentityTokenCredentialsWebIdentityRoleSessionNameNotSet() {
-        setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN, VALID_ROLE_ARN);
         setValidProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE, VALID_CREDENTENTIALS_FILE);
 
         runner.assertNotValid(serviceImpl);
