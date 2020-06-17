@@ -19,25 +19,25 @@ package org.apache.nifi.processors.aws.credentials.provider.factory;
 import java.util.Map;
 
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.components.ValidationResult;
 import org.apache.nifi.processors.aws.s3.FetchS3Object;
 import org.apache.nifi.util.TestRunner;
 import org.apache.nifi.util.TestRunners;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import com.amazonaws.auth.AnonymousAWSCredentials;
+import com.amazonaws.SDKGlobalConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AnonymousAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider;
+import com.amazonaws.auth.STSAssumeRoleWithWebIdentitySessionCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.internal.StaticCredentialsProvider;
-import com.amazonaws.SDKGlobalConfiguration;
-import com.amazonaws.auth.STSAssumeRoleWithWebIdentitySessionCredentialsProvider;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
 /**
  * Tests of the validation and credentials provider capabilities of CredentialsProviderFactory.
  */
@@ -95,7 +95,7 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testExplicitDefaultCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
 
         doCredentialProviderFactoryTest(DefaultAWSCredentialsProviderChain.class);
     }
@@ -105,8 +105,8 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testExplicitDefaultCredentialsExclusive() {
-        runner.setProperty(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
-        runner.setProperty(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
         runner.assertNotValid();
     }
 
@@ -115,9 +115,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAccessKeyPairCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "false");
-        runner.setProperty(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
-        runner.setProperty(CredentialPropertyDescriptors.SECRET_KEY, "BogusSecretKey");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "false");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.SECRET_KEY, "BogusSecretKey");
 
         doCredentialProviderFactoryTest(StaticCredentialsProvider.class);
     }
@@ -127,7 +127,7 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAccessKeyPairIncomplete() {
-        runner.setProperty(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ACCESS_KEY, "BogusAccessKey");
         runner.assertNotValid();
     }
 
@@ -146,7 +146,7 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testFileCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
                         "src/test/resources/mock-aws-credentials.properties");
         runner.assertValid();
 
@@ -158,10 +158,10 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
 
         doCredentialProviderFactoryTest(STSAssumeRoleSessionCredentialsProvider.class);
     }
@@ -171,9 +171,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleCredentialsMissingARN() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
         runner.assertNotValid();
     }
 
@@ -182,11 +182,11 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleCredentialsInvalidSessionTime() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
-        runner.setProperty(CredentialPropertyDescriptors.MAX_SESSION_TIME, "10");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.MAX_SESSION_TIME, "10");
         runner.assertNotValid();
     }
 
@@ -195,9 +195,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleExternalIdMissingArnAndName() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_EXTERNAL_ID, "BogusExternalId");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_EXTERNAL_ID, "BogusExternalId");
         runner.assertNotValid();
     }
 
@@ -207,7 +207,7 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testAnonymousCredentials() {
 
-        runner.setProperty(CredentialPropertyDescriptors.USE_ANONYMOUS_CREDENTIALS, "true");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_ANONYMOUS_CREDENTIALS, "true");
         runner.assertValid();
 
         final Map<PropertyDescriptor, String> properties = runner.getProcessContext().getProperties();
@@ -229,8 +229,8 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAnonymousAndDefaultCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
-        runner.setProperty(CredentialPropertyDescriptors.USE_ANONYMOUS_CREDENTIALS, "true");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "true");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_ANONYMOUS_CREDENTIALS, "true");
         runner.assertNotValid();
     }
 
@@ -239,8 +239,8 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testNamedProfileCredentials() {
-        runner.setProperty(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "false");
-        runner.setProperty(CredentialPropertyDescriptors.PROFILE_NAME, "BogusProfile");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.USE_DEFAULT_CREDENTIALS, "false");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.PROFILE_NAME, "BogusProfile");
 
         doCredentialProviderFactoryTest(ProfileCredentialsProvider.class);
     }
@@ -250,12 +250,12 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleCredentialsWithProxy() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "8080");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_ARN, "BogusArn");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_NAME, "BogusSession");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "8080");
 
         doCredentialProviderFactoryTest(STSAssumeRoleSessionCredentialsProvider.class);
     }
@@ -265,8 +265,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleMissingProxyHost() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE, "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "8080");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "8080");
         runner.assertNotValid();
     }
 
@@ -275,8 +276,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleMissingProxyPort() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE, "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
         runner.assertNotValid();
     }
 
@@ -285,9 +287,10 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testAssumeRoleInvalidProxyPort() {
-        runner.setProperty(CredentialPropertyDescriptors.CREDENTIALS_FILE, "src/test/resources/mock-aws-credentials.properties");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
-        runner.setProperty(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "notIntPort");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.CREDENTIALS_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_HOST, "proxy.company.com");
+        validatePropertySetIsInvalid(CredentialPropertyDescriptors.ASSUME_ROLE_PROXY_PORT, "notIntPort");
         runner.assertNotValid();
     }
 
@@ -297,11 +300,11 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testWebIdentityTokenCredentialsHappyPath() {
 
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
 
         doCredentialProviderFactoryTest(STSAssumeRoleWithWebIdentitySessionCredentialsProvider.class);
     }
@@ -314,12 +317,48 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testWebIdentityTokenCredentialsRoleSessionNameExpression() {
 
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
-                           "nifi-${now():format('yyyyMMddHHmmssSSS')}");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
+                                   "nifi-${now():format('yyyyMMddHHmmssSSS')}");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+
+        doCredentialProviderFactoryTest(STSAssumeRoleWithWebIdentitySessionCredentialsProvider.class);
+    }
+
+    /**
+     * Test web identity role session name for Web Identity Token Strategy is not set.
+     *
+     * <p>The provider create a default role session name.</p>
+     */
+    @Test
+    public void testWebIdentityTokenCredentialsWebIdentityRoleSessionNameNotSet() {
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
+
+        doCredentialProviderFactoryTest(STSAssumeRoleWithWebIdentitySessionCredentialsProvider.class);
+    }
+
+    /**
+     * Test non-existent variable for the AWS Web Identity Role Session Name.
+     *
+     * <p>The Role Session Name pattern has a NiFi expression that evaluates to an empty string (because the
+     * {@link SDKGlobalConfiguration#AWS_ROLE_SESSION_NAME_ENV_VAR} property does not exist. The role session
+     * name is an optional property, so all the properties are valid and the test should build a credential
+     * provider.</p>
+     */
+    @Test
+    public void testWebIdentityTokenCredentialsRoleSessionNameExpressionIsEmpty() {
+
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
+                                   "${" + SDKGlobalConfiguration.AWS_ROLE_SESSION_NAME_ENV_VAR + "}");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
 
         doCredentialProviderFactoryTest(STSAssumeRoleWithWebIdentitySessionCredentialsProvider.class);
     }
@@ -329,9 +368,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testWebIdentityTokenCredentialsWebIdentityRoleArnNotSet() {
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
 
         runner.assertNotValid();
     }
@@ -341,24 +380,11 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testWebIdentityTokenCredentialsWebIdentityBadRoleArn() {
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                "xxx:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
-
-        runner.assertNotValid();
-    }
-
-    /**
-     * Test web identity role session name for Web Identity Token Strategy is not set.
-     */
-    @Test
-    public void testWebIdentityTokenCredentialsWebIdentityRoleSessionNameNotSet() {
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsInvalid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                     "xxx:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
 
         runner.assertNotValid();
     }
@@ -371,12 +397,12 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testWebIdentityTokenCredentialsRoleSessionNameBadExpression() {
 
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
-                           "nifi-${now(:format('yyyyMMddHHmmssSSS')}");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/mock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsInvalid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
+                                     "nifi-${now(:format('yyyyMMddHHmmssSSS')}");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/mock-aws-credentials.properties");
 
         runner.assertNotValid();
     }
@@ -386,9 +412,9 @@ public class TestCredentialsProviderFactory {
      */
     @Test
     public void testWebIdentityTokenCredentialsWebIdentityWebTokenFileNotSet() {
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME, "session-role-name");
 
         runner.assertNotValid();
     }
@@ -401,12 +427,12 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testWebIdentityTokenCredentialsTokenFileNotExist() {
 
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
-                           "nifi-${now(:format('yyyyMMddHHmmssSSS')}");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources/ock-aws-credentials.properties");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
+                                   "nifi-session");
+        validatePropertySetIsInvalid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                   "src/test/resources/ock-aws-credentials.properties");
 
         runner.assertNotValid();
     }
@@ -419,12 +445,12 @@ public class TestCredentialsProviderFactory {
     @Test
     public void testWebIdentityTokenCredentialsTokenFileNotFile() {
 
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
-                           "arn:partition:service:" + awsRegion + ":account-id:some_resource");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
-                           "nifi-${now(:format('yyyyMMddHHmmssSSS')}");
-        runner.setProperty(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
-                           "src/test/resources");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_ARN,
+                                   "arn:partition:service:" + awsRegion + ":account-id:some_resource");
+        validatePropertySetIsValid(CredentialPropertyDescriptors.WEB_IDENTITY_ROLE_SESSION_NAME,
+                                   "nifi-session");
+        validatePropertySetIsInvalid(CredentialPropertyDescriptors.WEB_IDENTITY_TOKEN_FILE,
+                                     "src/test/resources");
 
         runner.assertNotValid();
     }
@@ -448,5 +474,50 @@ public class TestCredentialsProviderFactory {
         Assert.assertTrue("The credentials provider class should be " + expectedProviderClass.getName() +"," +
                           "but is " + actualProviderClass.getName() + ".",
                           expectedProviderClass == actualProviderClass);
+    }
+
+    /**
+     * Validate that setting a property is invalid.
+     * @param propertyDescriptor
+     *          The {@link PropertyDescriptor} for the property to set.
+     * @param newValue
+     *          The new value to set.
+     */
+    private void validatePropertySetIsInvalid(final PropertyDescriptor propertyDescriptor, final String newValue) {
+        validatePropertySetResult(propertyDescriptor, newValue, false);
+    }
+
+    /**
+     * Validate that setting a property is valid.
+     * @param propertyDescriptor
+     *          The {@link PropertyDescriptor} for the property to set.
+     * @param newValue
+     *          The new value to set.
+     */
+    private void validatePropertySetIsValid(final PropertyDescriptor propertyDescriptor, final String newValue) {
+        validatePropertySetResult(propertyDescriptor, newValue, true);
+    }
+
+    /**
+     * Validate that setting a property has the expected result.
+     *
+     * @param propertyDescriptor
+     *          The {@link PropertyDescriptor} for the property to set.
+     * @param newValue
+     *          The new value to set.
+     * @param expectedIsValid
+     *          {@code true} if setting the property is expected to be valid. Otherwise, {@code false}.
+     */
+    private void validatePropertySetResult(final PropertyDescriptor propertyDescriptor,
+                                           final String newValue,
+                                           final boolean expectedIsValid) {
+        final ValidationResult actualResult = runner.setProperty(propertyDescriptor, newValue);
+
+        final boolean actualIsValid = actualResult.isValid();
+        final String message = "Setting the property descriptor \"" + propertyDescriptor.getDisplayName() + "\" to \"" +
+                               newValue + "\" should be " +
+                              (expectedIsValid ? "valid" : "invalid") + ", but the validation " +
+                              (actualIsValid ? "succeeded" : "failed") + ".";
+        Assert.assertTrue(message, expectedIsValid == actualIsValid);
     }
 }
