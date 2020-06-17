@@ -20,12 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.nifi.components.PropertyDescriptor;
-import org.apache.nifi.components.PropertyValue;
-import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
 
 
@@ -38,128 +33,48 @@ import org.apache.nifi.components.ValidationResult;
 public final class AwsWebIdentityTokenFileValidator extends AbstractPropertyValidator {
 
     /**
-     * Validate an AWS Web Identity Token File.
-     *
-     * @param subject
-     *          What is being validated.
-     * @param input
-     *          The string (value) to be validated.
-     * @param context
-     *          The {@link ValidationContext} to use when validating properties.
-     * @return
-     *          A {@link ValidationResult} object containing the outcome of the validation.
+     * @return {@code true} if this property is mandatory.
      */
     @Override
-    public ValidationResult validate(final String subject, final String input, final ValidationContext context) {
-
-        ValidationResult validationResult = null;
-        if (StringUtils.isBlank(input)) {
-            return validationResult = new ValidationResult.Builder()
-                                                .subject(subject)
-                                                .input(input)
-                                                .valid(false)
-                                                .explanation("the Web Identity Token File cannot be empty or blank.")
-                                                .build();
-        }
-        validationResult = internalValidate(subject, input, context);
-
-        return validationResult;
+    protected boolean isMandatoryProperty() {
+        return true;
     }
 
     /**
-     * Validate the Web Identity Token File.
-     *
-     * <p>This method is called indirectly by the
-     * {@code org.apache.nifi.processors.aws.credentials.provider.factory.CredentialsProviderFactory.validate(ValidationContext)}
-     * method, which calls the {@code validate(ValidationContext)} method on each
-     * class in the {@code org.apache.nifi.processors.aws.credentials.provider.factory.strategies} package.</p>
-     *
-     * <p>This means that the value of the {@link PropertyDescriptor} can be {@code null}, in which case, the value
-     * must not be validated.</p>
-     *
-     * <p>The Web Identity Role Token File must be an existing file. </p>
-     *
-     * @param webIdentityTokenFileProperty
-     *          The {@link PropertyDescriptor} for the Web Identity Token File property to validate.
-     * @param validationContext
-     *          The {@link ValidationContext} to validate against.
-     * @param validationFailureResults
-     *          The {@link Collection} of failed validations.
-     */
-    public void validate(final PropertyDescriptor webIdentityTokenFileProperty,
-                         final ValidationContext validationContext,
-                         final Collection<ValidationResult> validationFailureResults) {
-
-        final PropertyValue webIdentityTokenFileValue = validationContext.getProperty(webIdentityTokenFileProperty);
-
-        ValidationResult validationResult = null;
-        if (webIdentityTokenFileValue == null) {
-            validationResult = new ValidationResult.Builder()
-                    .subject("Web Identity Token File")
-                    .input(null)
-                    .valid(false)
-                    .explanation("The Web Identity Token must be specified.")
-                    .build();
-        } else {
-            final String subject = webIdentityTokenFileProperty.getName();
-            final String input = webIdentityTokenFileValue.getValue();
-
-            if (input == null) {
-                return;
-            }
-            validationResult = validate(subject, input, validationContext);
-        }
-
-        if (!validationResult.isValid()) {
-            validationFailureResults.add(validationResult);
-        }
-    }
-
-    /**
-     * Validate an AWS Web Identity Token File.
+     * Validate the AWS Web Identity Token File path.
      *
      * @param subject
      *          What is being validated.
      * @param input
      *          The string (value) to be validated.
-     * @param context
-     *          The {@link ValidationContext} to use when validating properties.
      * @return
      *          A {@link ValidationResult} object containing the outcome of the validation.
+     *          {@link ValidationResult#isValid()} will return {@code true} if the the AWS Web Identity Token File path
+     *          is OK, or {@code false} if validation fails.
      */
-    private ValidationResult internalValidate(final String subject,
-                                              final String input,
-                                              final ValidationContext context) {
-        final ValidationResult evaluationResult = validateExpressionLanguageInPropertyValue(subject, input, context);
-
-        if (!evaluationResult.isValid()) {
-            return evaluationResult;
-        }
+    @Override
+    protected ValidationResult validateValue(final String subject, final String input) {
         Path path = Paths.get(evaluatedInput);
 
+        String explanation = null;
+        boolean isValid = true;
         try {
             path = path.toRealPath();
+
+            isValid = Files.isRegularFile(path);
+
+            explanation = "the path + " + path.toString() + " does not exist, or is not a regular file, " +
+                          "or it cannot be determined whether the file is a regular file or not.";
         } catch (final IOException ioe) {
-            final String explanation = "An error occurred getting the real path from " + evaluatedInput + ". " +
-                                       "This can happen if the effective user does not have permissions to " +
-                                       "access all the components of the path. The error is\n" +
-                                       ioe.getMessage() + "\n";
-            return new ValidationResult.Builder().subject(subject)
-                                                 .input(input)
-                                                 .valid(false)
-                                                 .explanation(explanation)
-                                                 .build();
+            explanation = "an error occurred getting the real path from " + evaluatedInput + ". " +
+                          "This can happen if the effective user does not have permissions to " +
+                          "access all the components of the path. The error is\n" +
+                           ioe.getMessage() + "\n";
+            isValid = false;
         }
-
-        final boolean isRegularFile = Files.isRegularFile(path);
-
-        final String explanation = isRegularFile ? null : "The path + " + path.toString() +
-                                                          " does not exist, or is not a regular file, " +
-                                                          "or it cannot be determined whether the file is a regular " +
-                                                          "file or not.";
         return new ValidationResult.Builder().subject(subject)
-                                             .input(input)
-                                             .valid(isRegularFile)
+                                             .input(isValid ? null : input)
+                                             .valid(isValid)
                                              .explanation(explanation)
                                              .build();
     }

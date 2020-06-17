@@ -21,7 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.PropertyValue;
 import org.apache.nifi.components.ValidationContext;
@@ -29,6 +28,14 @@ import org.apache.nifi.components.ValidationResult;
 
 /**
  * Class to validate an AWS Web Identity Role Session Name.
+ *
+ * <p><strong>Note</strong>:</p>
+ * <p>The AWS Role session name is an optional parameter. If it is not provided, then the credential provider strategy
+ * class generates one in the {@code getDerivedCredentialsProvider(Map<PropertyDescriptor,String>, AWSCredentialsProvider)}
+ * method.</p>
+ *
+ * <p>If a role session provider property is defined, the value must match the regular expression for an AWS Role Session
+ * Name.</p>
  *
  * @author Steve Brown, Estafet Ltd.
  *
@@ -93,48 +100,16 @@ public final class AwsWebIdentityRoleSessionNameValidator extends AbstractProper
     }
 
     /**
-     * Validate a web identity role session name.
-     *
-     * @param subject
-     *          What is being validated.
-     * @param input
-     *          The string (value) to be validated.
-     * @param context
-     *          The {@link ValidationContext} to use when validating properties.
-     * @return
-     *          A {@link ValidationResult} object containing the outcome of the validation.
-     * @throws NullPointerException
-     *          If the given {@code input} is {@code null}.
-     */
-    @Override
-    public ValidationResult validate(final String subject, final String input, final ValidationContext context) {
-
-        final ValidationResult evaluationResult =
-                                super.validateExpressionLanguageInPropertyValue(subject, input, context);
-
-        if (!evaluationResult.isValid() || !StringUtils.isEmpty(super.evaluatedInput)) {
-            return evaluationResult;
-        }
-
-        // Validate the Web Identity Role Session Name value against the regular expression.
-        final Matcher matcher = WEB_IDENTITY_ROLE_SESSION_NAME_PATTERN.matcher(evaluatedInput);
-        final boolean isValid = matcher.matches();
-        return new ValidationResult.Builder().subject(subject)
-                                             .input(input)
-                                             .valid(isValid)
-                                             .explanation(buildExplanation(subject, input))
-                                             .build();
-    }
-
-    /**
      * Validate the Web Identity Role Session Name.
+     *
+     * <p>The AWS Role Session name is optional, so this method needs to override the super class method.</p>
      *
      * <p>This method is called indirectly by the
      * {@code org.apache.nifi.processors.aws.credentials.provider.factory.CredentialsProviderFactory.validate(ValidationContext)}
      * method, which calls the {@code validate(ValidationContext)} method on each
      * class in the {@code org.apache.nifi.processors.aws.credentials.provider.factory.strategies} package.</p>
      *
-     * <p>This means that the value of the {@link PropertyDescriptor} can be {@code null}, in which case, the value
+     * <p>This means that the value of the {@link PropertyDescriptor} might not be set, in which case, the value
      * must not be validated.</p>
      *
      * @param webIdentityRoleSessionNameProperty
@@ -144,35 +119,28 @@ public final class AwsWebIdentityRoleSessionNameValidator extends AbstractProper
      * @param validationFailureResults
      *          The {@link Collection} of failed validations.
      */
-    public void validate(final PropertyDescriptor webIdentityRoleSessionNameProperty,
-                         final ValidationContext validationContext,
-                         final Collection<ValidationResult> validationFailureResults) {
-
-        final PropertyValue webIdentityRoleSessionNameValue =
-                                validationContext.getProperty(webIdentityRoleSessionNameProperty);
-
-        ValidationResult validationResult = null;
-        if (webIdentityRoleSessionNameValue == null) {
-            validationResult = new ValidationResult.Builder()
-                    .subject("Web Identity Role Session Name")
-                    .input(null)
-                    .valid(false)
-                    .explanation("The Web Identity Role Session Name must be specified.")
-                    .build();
-        } else {
-            final String subject = webIdentityRoleSessionNameProperty.getName();
-            final String input = webIdentityRoleSessionNameValue.getValue();
-
-            if (input == null) {
-                return;
-            }
-            validationResult = validate(subject, input, validationContext);
-        }
-
-        if (!validationResult.isValid()) {
-            validationFailureResults.add(validationResult);
-        }
-    }
+//    @Override
+//    public void validate(final PropertyDescriptor webIdentityRoleSessionNameProperty,
+//                         final ValidationContext validationContext,
+//                         final Collection<ValidationResult> validationFailureResults) {
+//
+//        final PropertyValue propertyValue = validationContext.getProperty(webIdentityRoleSessionNameProperty);
+//
+//        final String subject = webIdentityRoleSessionNameProperty.getDisplayName();
+//        ValidationResult validationResult = validatePropertyPresent(subject, propertyValue);
+//
+//        boolean isValid = validationResult.isValid();
+//        if (isValid) {
+//            if (propertyValue.isSet()) {
+//                final String input = propertyValue.getValue();
+//                validationResult = validate(subject, input, validationContext);
+//            }
+//        }
+//
+//        if (!validationResult.isValid()) {
+//            validationFailureResults.add(validationResult);
+//        }
+//    }
 
     /**
      * Build the description from the specified subject and input.
@@ -196,5 +164,42 @@ public final class AwsWebIdentityRoleSessionNameValidator extends AbstractProper
                .append("It must start with an alphabetic character.\n")
                .append("The remaining characters can be alphanumeric, '_', '=', ',', '.', '@', or '-'.\n");
         return builder.toString();
+    }
+
+    /**
+     * @return {@code true} if this property is mandatory.
+     */
+    @Override
+    protected boolean isMandatoryProperty() {
+        return false;
+    }
+
+    /**
+     * Validate the AWS Web Identity Role Session Name.
+     *
+     * @param subject
+     *          What is being validated.
+     * @param input
+     *          The string (value) to be validated.
+     * @return
+     *          A {@link ValidationResult} object containing the outcome of the validation.
+     *          {@link ValidationResult#isValid()} will return {@code true} if the the AWS Web Identity Role Session
+     *          name is OK, or {@code false} if validation fails.
+     */
+    @Override
+    protected ValidationResult validateValue(final String subject, final String input) {
+
+        // Validate the Web Identity Role Session Name value against the regular expression.
+        final Matcher matcher = WEB_IDENTITY_ROLE_SESSION_NAME_PATTERN.matcher(evaluatedInput);
+        final boolean isValid = matcher.matches();
+        String explanation = null;
+        if (!isValid) {
+            explanation = buildExplanation(subject, input);
+        }
+        return new ValidationResult.Builder().subject(subject)
+                                             .input(isValid ? null : input)
+                                             .valid(isValid)
+                                             .explanation(explanation)
+                                             .build();
     }
 }
