@@ -174,11 +174,6 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCrede
             return false;
         }
 
-        final String webIdentityRoleSessionName = properties.get(WEB_IDENTITY_ROLE_SESSION_NAME);
-        if (StringUtils.isEmpty(webIdentityRoleSessionName)) {
-            return false;
-        }
-
         final String webIdentityTokenFile = properties.get(WEB_IDENTITY_TOKEN_FILE);
         if (StringUtils.isEmpty(webIdentityTokenFile)) {
             return false;
@@ -224,6 +219,52 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCrede
                                         final Map<PropertyDescriptor, String> properties,
                                         final AWSCredentialsProvider primaryCredentialsProvider) {
 
+        final AWSSecurityTokenService securityTokenServiceClient = buildSecurityTokenServiceClient(properties);
+
+
+        // Build the Assume Role With Web Identity Session Credentials Provider
+        final String roleArn = properties.get(WEB_IDENTITY_ROLE_ARN);
+        final String roleSessionName = makeRoleSessionName(properties);
+        final String webIdentityTokenFile = properties.get(WEB_IDENTITY_TOKEN_FILE);
+
+        final STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder providerBuilder =
+                new STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder(roleArn,
+                                                                                   roleSessionName,
+                                                                                   webIdentityTokenFile)
+                                                                          .withStsClient(securityTokenServiceClient);
+
+        final AWSCredentialsProvider credentialsProvider = providerBuilder.build();
+
+        return credentialsProvider;
+    }
+
+    /**
+     * Create a role session name.
+     *
+     * <p>If the {@code WEB_IDENTITY_ROLE_SESSION_NAME} property is not set, creates a role session name of the format
+     * {@code nifi-<timestamp>}, where timestamp is the number of milliseconds since the start of the epoch.
+     * @param properties
+     *          The provider properties.
+     * @return
+     *          A role session name.
+     */
+    private String makeRoleSessionName(final Map<PropertyDescriptor, String> properties) {
+        String roleSessionName = properties.get(WEB_IDENTITY_ROLE_SESSION_NAME);
+
+        if (StringUtils.isEmpty(roleSessionName)) {
+            roleSessionName = "nifi-" + Long.toString(System.currentTimeMillis());
+        }
+        return roleSessionName;
+    }
+
+    /**
+     * Build the Secure Token Service client.
+     * @param properties
+     *          The current configuration.
+     * @return
+     *          The Secure Token Service client as an {@link AWSSecurityTokenService} object.
+     */
+    private AWSSecurityTokenService buildSecurityTokenServiceClient(final Map<PropertyDescriptor, String> properties) {
         final ClientConfiguration clientConfiguration = new ClientConfiguration();
         addProxyConfiguration(properties, clientConfiguration);
 
@@ -244,25 +285,18 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCrede
                                                     .withClientConfiguration(clientConfiguration)
                                                     .withCredentials(clientCredentialsProvider)
                                                     .build();
-
-        // Build the Assume Role With Web Identity Session Credentials Provider
-        final String roleArn = properties.get(WEB_IDENTITY_ROLE_ARN);
-        final String roleSessionName = properties.get(WEB_IDENTITY_ROLE_SESSION_NAME);
-        final String webIdentityTokenFile = properties.get(WEB_IDENTITY_TOKEN_FILE);
-
-        final STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder providerBuilder =
-                new STSAssumeRoleWithWebIdentitySessionCredentialsProvider.Builder(roleArn,
-                                                                                   roleSessionName,
-                                                                                   webIdentityTokenFile)
-                                                                          .withStsClient(securityTokenServiceClient);
-
-        final AWSCredentialsProvider credentialsProvider = providerBuilder.build();
-
-        return credentialsProvider;
+        return securityTokenServiceClient;
     }
 
     /**
      * Validates the properties belonging to this strategy, given the selected primary strategy.
+     *
+     * <p>Called from {@link org.apache.nifi.processors.aws.credentials.provider.factory.CredentialsProviderFactory#validate(ValidationContext)},
+     * which calls the {@code validate(ValidationContext)} method on each of the strategy classes in the
+     * {@code org.apache.nifi.processors.aws.credentials.provider.factory.strategies} package, in turn.</p>
+     * <p>The {@link org.apache.nifi.processors.aws.credentials.provider.factory.CredentialsProviderFactory#validate(ValidationContext)}
+     * method is called from the controller service method
+     * {@code org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderControllerService#customValidate(ValidationContext)} method.</p>
      *
      * <p>Errors may result from individually malformed properties, invalid combinations of properties, or
      *  inappropriate use of properties not consistent with the primary strategy.</p>
@@ -323,8 +357,6 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCrede
     private void validateAllRequiredPropertiesAreSet(final ValidationContext validationContext,
                                                      final Collection<ValidationResult> validationFailureResults) {
         final boolean webIdentityRoleArnPropertyIsSet = validationContext.getProperty(WEB_IDENTITY_ROLE_ARN).isSet();
-        final boolean webIdentityRoleSessionNameIsSet =
-                validationContext.getProperty(WEB_IDENTITY_ROLE_SESSION_NAME).isSet();
         final boolean webIdentityTokenFileIsSet = validationContext.getProperty(WEB_IDENTITY_TOKEN_FILE).isSet();
 
         // Either none of these properties must be set, or all of them must be set.
@@ -333,8 +365,7 @@ public class WebIdentityTokenCredentialsStrategy extends AbstractAssumeRoleCrede
         // If none of these properties are set, some other strategy will be chosen to create the credential provider
         // service.
         // If some of these properties are set, validation fails.
-        if (webIdentityRoleArnPropertyIsSet ^ webIdentityRoleSessionNameIsSet
-            || webIdentityRoleArnPropertyIsSet ^ webIdentityTokenFileIsSet) {
+        if (webIdentityRoleArnPropertyIsSet ^ webIdentityTokenFileIsSet) {
             final String explanation = makeExplanationForMissingProperties(validationContext);
 
             final ValidationResult validatePropertiesSetResult =
