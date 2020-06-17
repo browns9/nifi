@@ -24,7 +24,6 @@ import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
 import org.apache.nifi.components.Validator;
 import org.apache.nifi.processor.exception.ProcessException;
-import org.apache.nifi.processor.util.StandardValidators;
 import org.apache.nifi.util.StringUtils;
 
 import com.amazonaws.arn.Arn;
@@ -247,11 +246,8 @@ abstract class AbstractPropertyValidator implements Validator {
         // Check the NiFi expression.
         ValidationResult validationResult = validateIsValidNiFiExpression(subject, input, context);
 
-        boolean isValid = validationResult.isValid();
-        String explanation = null;
-        if (isValid) {
+        if (validationResult.isValid()) {
             validationResult = evaluateNiFiExpression(subject, input, context);
-            isValid = validationResult.isValid();
         }
 
         return validationResult;
