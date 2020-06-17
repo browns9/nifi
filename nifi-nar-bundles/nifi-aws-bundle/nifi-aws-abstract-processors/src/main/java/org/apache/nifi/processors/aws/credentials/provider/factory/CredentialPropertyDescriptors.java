@@ -23,6 +23,9 @@ import org.apache.nifi.processors.aws.credentials.provider.factory.validations.A
 import org.apache.nifi.processors.aws.credentials.provider.factory.validations.AwsWebIdentityRoleSessionNameValidator;
 import org.apache.nifi.processors.aws.credentials.provider.factory.validations.AwsWebIdentityTokenFileValidator;
 
+import com.amazonaws.SDKGlobalConfiguration;
+
+
 /**
  * Shared definitions of properties that specify various AWS credentials.
  *
@@ -212,6 +215,10 @@ public class CredentialPropertyDescriptors {
             .description("Proxy pot for cross-account access, if needed within your environment. This will configure a proxy to request for temporary access keys into another AWS account")
             .build();
 
+    /**
+     * The {@link PropertyDescriptor} for the configuration method for the AWS STS Assume Role Web Identity Session Credentials Provider.
+     *
+     */
 
     /**
      * {@link PropertyDescriptor} for an AWS Role ARN, used for Web Identity Token access.
@@ -219,13 +226,15 @@ public class CredentialPropertyDescriptors {
      * @see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns">AWS ARN</a>
      */
     public static final PropertyDescriptor WEB_IDENTITY_ROLE_ARN = new PropertyDescriptor.Builder()
-            .name("Web Identity Token Role ARN")
-            .displayName("Web Identity Token Role ARN")
+            .name("web-identity-token-assume-role")
+            .displayName("AWS STS Assume Role with a Web Identity Token Role ARN")
             .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsArnValidator())
             .sensitive(false)
-            .description("The AWS Web Identity Role ARN for Web Identity Token access.")
+            .description("The ARN of the role to assume with  AWS STS Assume Role Web Identity Token credentials " +
+                         "provider. This can be specified by the NiFi expression " +
+                         "\"${" + SDKGlobalConfiguration.AWS_ROLE_ARN_ENV_VAR + "}\".")
             .build();
 
 
@@ -238,12 +247,15 @@ public class CredentialPropertyDescriptors {
      * describes the Web Identity Role Session Name parameter.</p>
      */
     public static final PropertyDescriptor WEB_IDENTITY_ROLE_SESSION_NAME = new PropertyDescriptor.Builder()
-            .name("Web Identity Token Role Session Name")
+            .name("web-identity-token-role-session-name")
             .displayName("Web Identity Token Role Session Name")
             .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsWebIdentityRoleSessionNameValidator())
-            .description("The Web Identity Role Session Name. Defaults to " + DEFAULT_SESSION_NAME + ".")
+            .description("The name of the temporary session for the STS Assmume Role with a Web Identity Token " +
+                         "Credentials Provider. Defaults to " + DEFAULT_SESSION_NAME + ". " +
+                         "This can be specified by the NiFi expression " +
+                         "\"${" + SDKGlobalConfiguration.AWS_ROLE_SESSION_NAME_ENV_VAR + "}\".")
             .sensitive(false)
             .build();
 
@@ -256,12 +268,14 @@ public class CredentialPropertyDescriptors {
      * describes the Web Identity Role Session Name parameter.</p>
      */
     public static final PropertyDescriptor WEB_IDENTITY_TOKEN_FILE = new PropertyDescriptor.Builder()
-            .name("Web Identity Token File")
+            .name("web-identity-token-file")
             .displayName("Web Identity Token File")
             .expressionLanguageSupported(ExpressionLanguageScope.VARIABLE_REGISTRY)
             .required(false)
             .addValidator(new AwsWebIdentityTokenFileValidator())
-            .description("Absolute path to a file containing the AWS Web Identity Token.")
+            .description("Absolute path to a file containing the AWS Web Identity Token. " +
+                         "This can be specified by the NiFi expression " +
+                         "\"${" + SDKGlobalConfiguration.AWS_ROLE_SESSION_NAME_ENV_VAR + "}\".")
             .sensitive(false)
             .build();
 }
